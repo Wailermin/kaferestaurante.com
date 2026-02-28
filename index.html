@@ -634,6 +634,8 @@ if (alreadyClaimed === "1" && btnPromo) {
     submitBtn.textContent = "ENVIANDO…";
   }
 
+  let aviso;
+
   try {
     const data = Object.fromEntries(new FormData(promoForm).entries());
 
@@ -664,13 +666,38 @@ if (alreadyClaimed === "1" && btnPromo) {
 
     localStorage.setItem("kafe_claimed", "1");
 
-    promoForm.reset();
-    closePromo();
-    if (btnPromo) btnPromo.style.display = "none";
-    alert("¡Listo! Reclamo registrado ✅");
+ promoForm.reset();
+closePromo();
+if (btnPromo) btnPromo.style.display = "none";
+
+// Crear WhatsApp primero
+const BUSINESS_WA = "18297650416"; 
+const msg = `Hola, soy ${data.nombre}. Quiero mi trago gratis.`;
+const waUrl = `https://wa.me/${BUSINESS_WA}?text=${encodeURIComponent(msg)}`;
+
+// Aviso al usuario
+aviso = document.createElement("div");
+aviso.textContent = "Redirigiendo a WhatsApp...";
+aviso.style.position = "fixed";
+aviso.style.bottom = "20px";
+aviso.style.left = "50%";
+aviso.style.transform = "translateX(-50%)";
+aviso.style.background = "#0f2040";
+aviso.style.color = "#fff";
+aviso.style.padding = "10px 16px";
+aviso.style.borderRadius = "12px";
+aviso.style.zIndex = "9999";
+document.body.appendChild(aviso);
+
+// Redirección con delay (SOLO UNA VEZ)
+setTimeout(() => {
+  aviso.remove();
+  window.location.href = waUrl;
+}, 800);
 
   } catch (err) {
     console.error(err);
+    aviso?.remove();
     alert("Error al enviar");
   } finally {
     promoForm.dataset.sending = "0";
