@@ -572,50 +572,62 @@ if (alreadyClaimed === "1" && btnPromo) {
   });
 
   promoForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
+  const submitBtn = promoForm.querySelector('button[type="submit"]');
+  if (promoForm.dataset.sending === "1") return;
+
+  promoForm.dataset.sending = "1";
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "ENVIANDO…";
+  }
+
+  try {
     const data = Object.fromEntries(new FormData(promoForm).entries());
 
     // Validar nombre (solo letras y espacios)
-  const nombreValido = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/.test(data.nombre);
+    const nombreValido = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/.test(data.nombre);
 
-    // Validar celular (solo números, mínimo 8 dígitos)
-  const celularValido = /^[0-9]{8,15}$/.test(data.celular);
+    // Validar celular RD: 809/829/849 + 7 dígitos (10 total)
+    const celularValido = /^(809|829|849)[0-9]{7}$/.test(data.celular);
 
-if (!nombreValido) {
-  alert("El nombre solo puede contener letras");
-  return;
-}
+    if (!nombreValido) {
+      alert("El nombre solo puede contener letras");
+      return;
+    }
 
-if (!celularValido) {
-  alert("El celular solo puede contener números");
-  return;
-}
+    if (!celularValido) {
+      alert("Celular inválido. Debe empezar con 809, 829 o 849 y tener 10 dígitos.");
+      return;
+    }
 
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbxWgx-C0ILGlSTGiJV1pV6WEw1ckOmwIceYc9GbyfAQUsB-4vhvVcscnJ7CrZmHY2oY/exec";
 
-    try {
-  const res = await fetch(ENDPOINT, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(data)
-  });
+    await fetch(ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(data)
+    });
 
-  // Con no-cors no podemos leer JSON respuesta.
-  // Solución: asumimos éxito local y prevenimos abuso con localStorage.
-  localStorage.setItem("kafe_claimed", "1");
+    localStorage.setItem("kafe_claimed", "1");
 
-  promoForm.reset();
-  closePromo();
-  if (btnPromo) btnPromo.style.display = "none";
-  alert("¡Listo! Reclamo registrado ✅");
+    promoForm.reset();
+    closePromo();
+    if (btnPromo) btnPromo.style.display = "none";
+    alert("¡Listo! Reclamo registrado ✅");
 
-} catch (err) {
-  console.error(err);
-  alert("Error al enviar");
-}
-  });
+  } catch (err) {
+    console.error(err);
+    alert("Error al enviar");
+  } finally {
+    promoForm.dataset.sending = "0";
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "ENVIAR";
+    }
+  }
 });
 </script>
 
