@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="/menu/img/flama.png">
+  <link rel="apple-touch-icon" href="/menu/img/flama.png">
+<!-- CACHE CONTROL -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- BÁSICO -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>KaFe Restaurante – Menú | Qué comer en Higüey</title>
+  <meta name="description" content="Menú digital de KaFe Restaurante en Higüey. Mofongos, cachapas, pastas, pechuga a la crema y más. Ordena fácil.">
+  <link rel="canonical" href="https://kaferestaurante.com/menu/">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="KaFe Restaurante – Menú">
+  <meta property="og:description" content="Mira el menú completo y ordena fácil desde tu celular">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kaferestaurante.com/menu/">
+  <meta property="og:image" content="https://kaferestaurante.com/menu/img/present.jpg">
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #0f2040;
+    --navy-light: #162d52;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f0e8d8;
+    --text-muted: rgba(240,232,216,0.55);
+    --star: #c9a84c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100svh;
+    overflow-x: hidden;
+  }
+
+  /* ---- BACKGROUND TEXTURE ---- */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(22,45,82,0.8) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .hero-bg-leaf {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  .hero-bg-leaf svg {
+    width: 80vmin;
+    height: 80vmin;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .logo-script {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(5rem, 18vw, 12rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #fff;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    text-shadow: 0 4px 40px rgba(201,168,76,0.2);
+  }
+
+  .logo-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.65rem, 2vw, 0.9rem);
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    color: var(--cream);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+  }
+
+  .hero-address {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
+  .hero-address svg { width: 14px; height: 14px; fill: var(--gold); opacity: 0.7; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0.4;
+    animation: bounce 2s infinite;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .scroll-hint span { width: 1px; height: 40px; background: var(--cream); display: block; }
+
+  /* ---- NAV ---- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,22,40,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 0;
+    min-width: max-content;
+    margin: 0 auto;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 1rem 1.2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  nav ul li a:hover { color: var(--gold-light); }
+
+  /* ---- SECTIONS ---- */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 300;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .section-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem auto 0;
+  }
+
+  /* ---- MENU ITEMS ---- */
+  .menu-grid {
+    display: grid;
+    gap: 1px;
+  }
+
+  .menu-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    align-items: start;
+    animation: fadeUp 0.6s ease both;
+    transition: background 0.2s;
+  }
+
+  .menu-item:hover {
+    background: rgba(201,168,76,0.03);
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .item-info {}
+
+  .item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .item-name .star {
+    color: var(--gold);
+    font-size: 0.8rem;
+  }
+
+  .item-desc {
+    font-size: 0.75rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 500px;
+  }
+
+  .item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cream);
+    white-space: nowrap;
+    padding-top: 0.1rem;
+  }
+
+  /* ---- NOTE BOX ---- */
+  .note-box {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    background: rgba(201,168,76,0.04);
+  }
+
+  .note-box .note-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+  }
+
+  .note-box .note-small {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ---- SUB SECTION ---- */
+  .sub-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin: 3rem 0 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- FAQ ---- */
+  .faq-list { display: grid; gap: 1rem; }
+
+  .faq-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 2px;
+    padding: 1.5rem 1.8rem;
+    animation: fadeUp 0.6s ease both;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item:hover { border-color: rgba(201,168,76,0.3); }
+
+  .faq-q {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+  }
+
+  .faq-a {
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    margin-top: 3rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.15);
+  }
+
+  .footer-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 1rem;
+  }
+
+  /* ---- SECTION DIVIDER ---- */
+  .section-divider {
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-divider::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    .menu-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .item-price { font-size: 1rem; }
+    nav ul li a { padding: 0.8rem 0.8rem; font-size: 0.6rem; }
+  }
+
+  /* Accesibilidad: foco visible para teclado */
+  a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Texto solo para lectores de pantalla */
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* Banner superior (usar quitando 'hidden' en el HTML) */
+  .top-alert{
+    position: sticky; top: 0; z-index: 200;
+    text-align:center; padding: .7rem 1rem;
+    background: rgba(201,168,76,.12);
+    border-bottom: 1px solid rgba(201,168,76,.25);
+    letter-spacing:.2em; text-transform:uppercase;
+    font-size:.65rem; color: var(--gold-light);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Respeta usuarios con 'reduced motion' */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+  /* --- Modal de imagen (tap para abrir/cerrar) --- */
+.image-modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 9999;
+}
+
+.image-modal.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-modal img{
+  max-width: 92vw;
+  max-height: 85vh;
+  border-radius: 14px;
+  box-shadow: 0 20px 80px rgba(0,0,0,.5);
+  cursor: zoom-out;
+  transform: scale(.95);
+  transition: transform .25s ease;
+}
+
+.image-modal.active img{
+  transform: scale(1);
+}
+
+  body.modal-open{
+  overflow: hidden;
+}
+.hero-whatsapp{
+  margin-top: .6rem;
+  font-size: .75rem;
+  letter-spacing: .15em;
+  opacity: .9;
+}
+
+.hero-whatsapp a{
+  color: var(--gold-light);
+  text-decoration: none;
+}
+.hero-whatsapp a:hover{
+  opacity: 1;
+  text-decoration: underline;
+}
+.hero-address a{
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.hero-address a:hover{
+  text-decoration: underline;
+}
+/* Botón flotante WhatsApp */
+.wa-float{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9998;
+
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+
+  padding: .75rem 1rem;
+  border-radius: 999px;
+
+  background: rgba(201,168,76,.14);      /* dorado suave */
+  border: 1px solid rgba(201,168,76,.30);
+  backdrop-filter: blur(10px);
+
+  color: var(--gold-light);
+  text-decoration: none;
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.wa-float svg{
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.wa-float:hover{
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+@media (max-width: 420px){
+  .wa-float span{ display:none; } /* en móvil chiquito solo icono */
+  .wa-float{ padding: .75rem; }
+}
+</style>
+</head>
+<body>
+  <div class="top-alert" hidden>Cerrado hoy</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-leaf">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <path d="M200 20 C120 60, 40 140, 80 250 C120 360, 200 380, 200 380 C200 380, 280 360, 320 250 C360 140, 280 60, 200 20Z" fill="none" stroke="white" stroke-width="1.5"/>
+      <line x1="200" y1="20" x2="200" y2="380" stroke="white" stroke-width="1"/>
+      <path d="M200 100 C160 120, 80 180, 100 240" fill="none" stroke="white" stroke-width="0.8"/>
+      <path d="M200 100 C240 120, 320 180, 300 240" fill="none" stroke="white" stroke-width="0.8"/>
+      <path d="M200 160 C170 175, 110 210, 125 255" fill="none" stroke="white" stroke-width="0.6"/>
+      <path d="M200 160 C230 175, 290 210, 275 255" fill="none" stroke="white" stroke-width="0.6"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="logo-script">KaFe</div>
+    <div class="logo-sub">Restaurant</div>
+    <div class="hero-divider"></div>
+    <div class="hero-address">
+  <a href="https://maps.app.goo.gl/n3WgTbJfYxoevnhr8" target="_blank">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+    Calle Remigio del Castillo, Próx. Basílica
+  </a>
+  </div>
+    <div class="hero-whatsapp">
+      <a href="https://wa.me/18297650416">WhatsApp: 829-765-0416</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span></span>
+    menú
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<nav>
+  <ul>
+    <li><a href="#entradas">Entradas</a></li>
+    <li><a href="#mofongos">Mofongos</a></li>
+    <li><a href="#ensaladas">Ensaladas</a></li>
+    <li><a href="#hamburguesas">Hamburguesas</a></li>
+    <li><a href="#principales">Principales</a></li>
+    <li><a href="#arepas">Arepas</a></li>
+    <li><a href="#cachapas">Cachapas</a></li>
+    <li><a href="#pasta">Pasta</a></li>
+    <li><a href="#cocteles">Cócteles</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- ENTRADAS -->
+<section id="entradas" class="section">
+  <div class="section-header">
+    <span class="section-label">Para comenzar</span>
+    <h2 class="section-title">Entradas</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Tequeños</div>
+        <div class="item-desc">Crujientes palitos de masa dorada, rellenos de queso fundido que se estira en cada mordida. Un clásico irresistible para empezar la velada.</div>
+      </div>
+      <div class="item-price">$350</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Palitos de mozzarella <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Empanizado dorado y crocante, con interior de mozzarella suave y fundente. Servidos con salsa de la casa para el dip perfecto.</div>
+      </div>
+      <div class="item-price">$275</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Muslitos de mar</div>
+        <div class="item-desc">Crujientes bocados de mar, dorados por fuera y suaves por dentro, perfectos para abrir el apetito.</div>
+      </div>
+      <div class="item-price">$350</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Arepitas con nata <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Ocho mini arepas doradas y ligeramente crocantes, servidas con auténtica nata venezolana: una crema suave y fresca con un toque cítrico que realzan cada bocado.</div>
+      </div>
+      <div class="item-price">$250</div>
+    </div>
+  </div>
+  <div class="note-box">
+    <div class="note-big">No te preocupes</div>
+    <div class="note-small">los impuestos están incluidos</div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- MOFONGOS -->
+<section id="mofongos" class="section">
+  <div class="section-header">
+    <span class="section-label">Especialidad caribeña</span>
+    <h2 class="section-title">Mofongos</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item" data-img="img/mofochicharron.jpg">
+      <div class="item-info">
+        <div class="item-name">Mofongo de chicharrón <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Plátano majado con ajo y bacon, toques de mantequilla, coronado con chicharrón crujiente que roba protagonismo en cada bocado.</div>
+      </div>
+      <div class="item-price">$710</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Mofongo de pechuga</div>
+        <div class="item-desc">Plátano majado con ajo y bacon, coronado con tierna pechuga de pollo en cremosa salsa blanca. Un clásico reconfortante y lleno de sabor.</div>
+      </div>
+      <div class="item-price">$650</div>
+    </div>
+    <div class="menu-item" data-img="img/copado.jpg">
+      <div class="item-info">
+        <div class="item-name">Mofongo copado <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">El especial de la casa: plátano majado con pechuga de pollo y chicharrón. Bañado en cremosa salsa blanca, coronado con queso fundido al contacto y finalizado con bacon crispy. Una experiencia única y generosa.</div>
+      </div>
+      <div class="item-price">$1,100</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Mofongo de camarones</div>
+        <div class="item-desc">Plátano majado con bacon y ajo, acompañado de camarones salteados al ajillo. Salsa aparte para un contraste fresco y delicioso.</div>
+      </div>
+      <div class="item-price">$960</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Mofongo copado de camarones</div>
+        <div class="item-desc">La versión más abundante: plátano majado con chicharrón y camarones, elaborado con 1 libra completa de camarones. Terminado con salsa blanca cremosa, queso fundido al contacto y bacon crispy.</div>
+      </div>
+      <div class="item-price">$1,750</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ENSALADAS -->
+<section id="ensaladas" class="section">
+  <div class="section-header">
+    <span class="section-label">Frescas y nutritivas</span>
+    <h2 class="section-title">Ensaladas</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Ensalada KaFe</div>
+        <div class="item-desc">La ensalada insignia de la casa.</div>
+      </div>
+      <div class="item-price">$710</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Ensalada de atún</div>
+        <div class="item-desc">Fresca y sabrosa, con atún de calidad y los mejores aderezos.</div>
+      </div>
+      <div class="item-price">$650</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Ensalada César de pollo</div>
+        <div class="item-desc">El clásico César con pechuga de pollo a la plancha, aderezo cremoso y crutones dorados.</div>
+      </div>
+      <div class="item-price">$1,100</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Ensalada César de camarones</div>
+        <div class="item-desc">Versión del César con jugosos camarones al ajillo.</div>
+      </div>
+      <div class="item-price">$960</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Ensalada de chicharrón</div>
+        <div class="item-desc">Ensalada fresca con trozos de chicharrón crujiente para el contraste perfecto de texturas.</div>
+      </div>
+      <div class="item-price">$1,750</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- HAMBURGUESAS & PATACONES -->
+<section id="hamburguesas" class="section">
+  <div class="section-header">
+    <span class="section-label">A tu manera</span>
+    <h2 class="section-title">Hamburguesas</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Hamburguesa de res Angus <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Jugosa carne Angus, acompañada de queso, vegetales frescos, bacon y pan brioche. Un clásico irresistible.</div>
+      </div>
+      <div class="item-price">$530</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Hamburguesa de pechuga</div>
+        <div class="item-desc">Pechuga de pollo a la plancha, jugosa y sazonada, acompañada de queso, bacon, vegetales frescos y pan brioche.</div>
+      </div>
+      <div class="item-price">$650</div>
+    </div>
+  </div>
+
+  <div class="sub-section-title">Patacones</div>
+
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Patacón de pollo <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Plátano verde frito relleno con pollo desmenuzado, queso derretido y acompañamientos frescos que equilibran lo crujiente con lo jugoso.</div>
+      </div>
+      <div class="item-price">$420</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Patacón de res</div>
+        <div class="item-desc">Plátano con carne de res mechada, jugosa y llena de sabor.</div>
+      </div>
+      <div class="item-price">$530</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Patacón completo</div>
+        <div class="item-desc">Relleno de pollo desmenuzado, bacon y huevo con vegetales que hacen el contraste perfecto.</div>
+      </div>
+      <div class="item-price">$570</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SELECCIÓN PRINCIPAL -->
+<section id="principales" class="section">
+  <div class="section-header">
+    <span class="section-label">Lo mejor de la parrilla</span>
+    <h2 class="section-title">Selección Principal</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item" data-img="img/tabla.jpg">
+      <div class="item-info">
+        <div class="item-name">Tabla de carnitas <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Una combinación irresistible de carnes: solomillo jugoso, chicharrón crujiente y salchicha parrillera al estilo de la casa. Acompañada de arepitas con nata crujiente como guarnición.</div>
+      </div>
+      <div class="item-price">$850</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Solomillo a la plancha</div>
+        <div class="item-desc">Corte de solomillo de cerdo sellado a la perfección, jugoso por dentro y dorado por fuera. Acompañado de guarniciones a su elección.</div>
+      </div>
+      <div class="item-price">$665</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Camarones a la crema</div>
+        <div class="item-desc">Camarones frescos preparados en cremosa salsa blanca con ajo y especias, servidos con guarniciones que completan el plato.</div>
+      </div>
+      <div class="item-price">$1,280</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pechuga a la plancha</div>
+        <div class="item-desc">Pechuga de pollo jugosa, sazonada y cocinada a la plancha, acompañada de guarniciones a su elección.</div>
+      </div>
+      <div class="item-price">$550</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pechuga a la crema <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Pechuga de pollo bañada en salsa cremosa con especias, servida con guarniciones de la casa.</div>
+      </div>
+      <div class="item-price">$650</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Churrasco</div>
+        <div class="item-desc">10oz de corte de res sellado a la plancha al punto que prefieras, dorado por fuera y jugoso por dentro, servido con chimichurri fresco. Acompañado de guarniciones de la casa.</div>
+      </div>
+      <div class="item-price">$1,350</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- AREPAS -->
+<section id="arepas" class="section">
+  <div class="section-header">
+    <span class="section-label">Sabor venezolano</span>
+    <h2 class="section-title">Arepas</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Arepa de pollo y queso <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Arepa venezolana rellena con pollo desmenuzado y abundante queso. Una combinación clásica, jugosa y llena de sabor casero.</div>
+      </div>
+      <div class="item-price">$230</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Las Bendecidas</div>
+        <div class="item-desc">Combo de 3 arepas pequeñas rellenas de pollo y queso, más crujientes y ligeras. Se acompañan con salsa de ajo, pico de gallo y nata, para disfrutar cada bocado con más sabor.</div>
+      </div>
+      <div class="item-price">$400</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Arepa de chicharrón y queso</div>
+        <div class="item-desc">Arepa rellena con trozos de chicharrón crujiente. Una opción contundente que conquista desde el primer mordisco.</div>
+      </div>
+      <div class="item-price">$335</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Arepa de res y queso <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Arepa rellena con carne de res mechada, jugosa y sazonada al estilo criollo, acompañada de queso.</div>
+      </div>
+      <div class="item-price">$295</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Arepa de tocineta y queso</div>
+        <div class="item-desc">Arepa rellena con tiras de tocineta crocante y queso. El equilibrio perfecto entre lo ahumado y lo crujiente.</div>
+      </div>
+      <div class="item-price">$260</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CACHAPAS -->
+<section id="cachapas" class="section">
+  <div class="section-header">
+    <span class="section-label">Al estilo venezolano</span>
+    <h2 class="section-title">Cachapas</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="note-box" style="margin-bottom: 2.5rem; margin-top: 0;">
+    <div class="note-big" style="font-size:0.9rem;">Preparadas con maíz tierno y queso de mano auténtico</div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Cachapa Extra queso</div>
+        <div class="item-desc">La clásica venezolana: maíz tierno con un toque dulce, rellena con abundante queso de mano tradicional venezolano.</div>
+      </div>
+      <div class="item-price">$450</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Cachapa de chicharrón <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Clásica cachapa de maíz suave, rellena con queso de mano y chicharrón crujiente que aporta un contraste irresistible.</div>
+      </div>
+      <div class="item-price">$590</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Cachapa de pollo <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Cachapa de maíz tierno, rellena con queso de mano y pollo desmenuzado sazonado al estilo de la casa. Una opción segura, generosa y llena de sabor casero.</div>
+      </div>
+      <div class="item-price">$450</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Cachapa de res</div>
+        <div class="item-desc">Cachapa de maíz dorada a la plancha, rellena con queso de mano y carne de res mechada, jugosa y sazonada al estilo criollo.</div>
+      </div>
+      <div class="item-price">$530</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Cachapa con tocineta <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Cachapa de maíz tierno rellena con queso de mano y tiras de bacon crocante. Un contraste perfecto entre lo dulce, lo cremoso y lo ahumado.</div>
+      </div>
+      <div class="item-price">$500</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PASTA -->
+<section id="pasta" class="section">
+  <div class="section-header">
+    <span class="section-label">Al dente, siempre</span>
+    <h2 class="section-title">Pasta</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="note-box" style="margin-bottom: 2.5rem; margin-top: 0;">
+    <div class="note-big" style="font-size:0.9rem;">Elige tu pasta: espaguetti, penne o linguini</div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pasta de camarones a la crema</div>
+        <div class="item-desc">Pasta al dente bañada en una cremosa salsa blanca donde se cocinan los camarones, impregnando todo el plato con su sabor marino.</div>
+      </div>
+      <div class="item-price">$960</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pasta Alfredo de pollo y bacon <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
+        <div class="item-desc">Pasta al dente en salsa Alfredo cremosa, con trozos de pechuga de pollo jugosa y el toque crocante y ahumado del bacon.</div>
+      </div>
+      <div class="item-price">$745</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pasta de camarones a la criolla</div>
+        <div class="item-desc">Pasta al dente con camarones frescos en sofrito criollo de tomate, pimientos, cebolla y especias caribeñas. Un clásico lleno de sabor.</div>
+      </div>
+      <div class="item-price">$900</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pasta Bolognesa</div>
+        <div class="item-desc">Receta tradicional italiana: pasta con salsa boloñesa de res molida, cocida lentamente con tomates frescos, especias y hierbas aromáticas.</div>
+      </div>
+      <div class="item-price">$650</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- COCTELES -->
+<section id="cocteles" class="section">
+  <div class="section-header">
+    <span class="section-label">Bienvenidos al bar</span>
+    <h2 class="section-title">Cócteles</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Mojito</div>
+        <div class="item-desc">Directo desde Cuba: ron, hierbabuena fresca y un toque frutal caribeño. Disponible en fresa, chinola, coco o limón.</div>
+      </div>
+      <div class="item-price">$320</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Margarita</div>
+        <div class="item-desc">El clásico mexicano: tequila, triple sec y jugo de limón fresco, servido en copa escarchada con sal. En fresa, chinola, coco o limón.</div>
+      </div>
+      <div class="item-price">$275</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Piña Colada</div>
+        <div class="item-desc">El sabor de Puerto Rico en una copa: mezcla cremosa de ron, piña fresca y coco, dulce y refrescante como el Caribe mismo.</div>
+      </div>
+      <div class="item-price">$350</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Sex on the Beach</div>
+        <div class="item-desc">Vodka y licor de durazno mezclados con jugos tropicales, en un difuminado de colores entre el rojo de la granadina y el naranja de la fruta.</div>
+      </div>
+      <div class="item-price">$250</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">AMF</div>
+        <div class="item-desc">Adiós Mother F*er — un trago fuerte y llamativo con azul intenso de vodka, ron, tequila, ginebra y sumo de limón.</div>
+      </div>
+      <div class="item-price">$250</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+  <div class="section-header">
+    <span class="section-label">Tus dudas</span>
+    <h2 class="section-title">Preguntas Frecuentes</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">¿Cuál es la especialidad de la casa?</div>
+      <div class="faq-a">Nuestro chicharrón es la estrella de la casa, preparado con la receta que nos distingue.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Eso da para dos?</div>
+      <div class="faq-a">Los platos son personales, pero se pueden compartir si así lo deseas.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Los jugos son naturales?</div>
+      <div class="faq-a">Sí, son naturales. Aunque si quieres optar por algo más fresco te recomiendo los licuados que se hacen al momento.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Va a demorar mucho?</div>
+      <div class="faq-a">La comida se prepara en el momento para asegurar calidad y frescura. El tiempo promedio es de 25 a 30 minutos, porque creemos que la buena comida merece su tiempo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KaFe</div>
+  <div class="footer-text">Restaurant · Calle Remigio del Castillo, Próx. Basílica</div>
+  <div class="footer-text" style="margin-top:0.5rem; opacity:0.3;">★ Favorito de nuestros clientes</div>
+</footer>
+<!-- Modal para ver fotos -->
+<div id="imageModal" class="image-modal" aria-hidden="true">
+  <img id="modalImg" alt="Foto del plato">
+</div>
+  <script>
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImg");
+
+  // Abrir: al tocar un plato con data-img
+  document.querySelectorAll(".menu-item[data-img]").forEach(item => {
+    item.style.cursor = "pointer"; // opcional: indica que es clickeable
+    item.addEventListener("click", (e) => {
+      const imgSrc = item.getAttribute("data-img");
+      if (!imgSrc) return;
+
+      modalImg.src = imgSrc;
+      modal.classList.add("active");
+      modal.setAttribute("aria-hidden", "false");
+    });
+  });
+
+  // Cerrar: al tocar la imagen o el fondo
+  modal.addEventListener("click", () => {
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+    modalImg.removeAttribute("src");
+  });
+
+  // Cerrar con tecla ESC (extra pro)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      modal.click();
+    }
+  });
+</script>
+<!-- Botón flotante WhatsApp -->
+<a class="wa-float" href="https://wa.me/18297650416" target="_blank" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="currentColor" d="M19.11 17.24c-.28-.14-1.64-.81-1.89-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.21-.6.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.38-1.63-1.54-1.9-.16-.28-.02-.43.12-.57.12-.12.28-.32.42-.48.14-.16.18-.28.28-.46.09-.18.05-.35-.02-.49-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.46h-.52c-.18 0-.46.07-.7.35-.25.28-.94.92-.94 2.25 0 1.33.97 2.62 1.11 2.8.14.18 1.91 2.92 4.62 4.1.65.28 1.15.45 1.54.58.65.21 1.25.18 1.72.11.52-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.18-.52-.32zM16.06 27.5h-.01c-1.98 0-3.92-.53-5.62-1.53l-.4-.24-3.96 1.04 1.06-3.86-.26-.4a11.43 11.43 0 01-1.78-6.13c0-6.33 5.16-11.48 11.5-11.48 3.07 0 5.96 1.2 8.13 3.37 2.17 2.17 3.36 5.06 3.36 8.13 0 6.33-5.16 11.49-11.48 11.49zm9.8-21.28A13.42 13.42 0 0016.05 2.5C8.65 2.5 2.63 8.52 2.63 15.92c0 2.36.62 4.67 1.8 6.71L2.5 29.5l7.04-1.85a13.4 13.4 0 006.51 1.67h.01c7.4 0 13.42-6.02 13.42-13.42 0-3.58-1.4-6.95-3.93-9.48z"/>
+  </svg>
+  <span>WhatsApp</span>
+</a>
+</body>
+</html>
