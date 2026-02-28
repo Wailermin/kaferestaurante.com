@@ -359,6 +359,57 @@ body::before {
     width: 100%;
   }
 }
+.link-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c9a84c; /* dorado base */
+
+  text-shadow:
+    0 0 6px rgba(201,168,76,0.6),
+    0 0 12px rgba(201,168,76,0.4),
+    0 0 18px rgba(201,168,76,0.3);
+
+  animation: glowGold 2.5s ease-in-out infinite;
+}
+
+@keyframes glowGold {
+  0%, 100% {
+    text-shadow:
+      0 0 4px rgba(201,168,76,0.4),
+      0 0 8px rgba(201,168,76,0.3);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(201,168,76,0.9),
+      0 0 20px rgba(201,168,76,0.7),
+      0 0 30px rgba(201,168,76,0.5);
+    transform: scale(1.15);
+  }
+}
+
+.link-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.4);
+  animation: ripple-effect 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
   </style>
 </head>
 
@@ -411,7 +462,7 @@ body::before {
 
         <a class="link-btn reveal" href="#" id="btnPromo">
           <div class="link-left">
-            <svg class="link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <span class="link-icon">🎁</span>
               <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 5h-2v5.2l4 2.3 1-1.7-3-1.8V7z"/>
             </svg>
             <span class="link-title">Bebida Gratis</span>
@@ -628,7 +679,36 @@ if (alreadyClaimed === "1" && btnPromo) {
       submitBtn.textContent = "ENVIAR";
     }
   }
+  });
+
+  document.querySelectorAll('.link-btn').forEach(button => {
+  button.addEventListener('click', function (e) {
+    
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+
+    // 👇 Esto arregla móvil + desktop
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (x - rect.left - size / 2) + 'px';
+    ripple.style.top = (y - rect.top - size / 2) + 'px';
+
+    this.appendChild(ripple);
+
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+  });
 });
+  
+});
+
+
 </script>
 
 </body>
