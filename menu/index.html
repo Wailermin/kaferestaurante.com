@@ -23,11 +23,19 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kaferestaurante.com/menu/">
   <meta property="og:image" content="https://kaferestaurante.com/menu/img/present.jpg">
+  <meta property="og:locale" content="es_DO">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KaFe Restaurante – Menú">
+  <meta name="twitter:description" content="Mira el menú completo y ordena fácil desde tu celular">
+  <meta name="twitter:image" content="https://kaferestaurante.com/menu/img/present.jpg">
+
 
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  
 <style>
   :root {
     --navy: #0a1628;
@@ -548,6 +556,31 @@
   .wa-float span{ display:none; } /* en móvil chiquito solo icono */
   .wa-float{ padding: .75rem; }
 }
+
+/* ---- VIDEO MODAL ---- */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s;
+  z-index: 9999;
+}
+
+.video-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-modal video {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 12px;
+}
 </style>
 </head>
 <body>
@@ -594,6 +627,7 @@
     <li><a href="#mofongos">Mofongos</a></li>
     <li><a href="#ensaladas">Ensaladas</a></li>
     <li><a href="#hamburguesas">Hamburguesas</a></li>
+    <li><a href="#patacones">Patacones</a></li>
     <li><a href="#principales">Principales</a></li>
     <li><a href="#arepas">Arepas</a></li>
     <li><a href="#cachapas">Cachapas</a></li>
@@ -656,21 +690,21 @@
     <div class="section-line"></div>
   </div>
   <div class="menu-grid">
-    <div class="menu-item" data-img="img/mofochicharron.jpg">
+    <div class="menu-item" data-video="img/mofongochicharron.mp4">
       <div class="item-info">
         <div class="item-name">Mofongo de chicharrón <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
         <div class="item-desc">Plátano majado con ajo y bacon, toques de mantequilla, coronado con chicharrón crujiente que roba protagonismo en cada bocado.</div>
       </div>
       <div class="item-price">$710</div>
     </div>
-    <div class="menu-item">
+    <div class="menu-item" data-img="img/mofongopollo.jpg">
       <div class="item-info">
         <div class="item-name">Mofongo de pechuga</div>
         <div class="item-desc">Plátano majado con ajo y bacon, coronado con tierna pechuga de pollo en cremosa salsa blanca. Un clásico reconfortante y lleno de sabor.</div>
       </div>
       <div class="item-price">$650</div>
     </div>
-    <div class="menu-item" data-img="img/copado.jpg">
+    <div class="menu-item" data-video="img/copadovideo.mp4">
       <div class="item-info">
         <div class="item-name">Mofongo copado <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
         <div class="item-desc">El especial de la casa: plátano majado con pechuga de pollo y chicharrón. Bañado en cremosa salsa blanca, coronado con queso fundido al contacto y finalizado con bacon crispy. Una experiencia única y generosa.</div>
@@ -684,7 +718,7 @@
       </div>
       <div class="item-price">$960</div>
     </div>
-    <div class="menu-item">
+    <div class="menu-item" data-img="img/mofongocamarones.jpg">
       <div class="item-info">
         <div class="item-name">Mofongo copado de camarones</div>
         <div class="item-desc">La versión más abundante: plátano majado con chicharrón y camarones, elaborado con 1 libra completa de camarones. Terminado con salsa blanca cremosa, queso fundido al contacto y bacon crispy.</div>
@@ -744,7 +778,7 @@
 
 <div class="section-divider"></div>
 
-<!-- HAMBURGUESAS & PATACONES -->
+<!-- HAMBURGUESAS -->
 <section id="hamburguesas" class="section">
   <div class="section-header">
     <span class="section-label">A tu manera</span>
@@ -767,9 +801,23 @@
       <div class="item-price">$650</div>
     </div>
   </div>
+</section>
 
-  <div class="sub-section-title">Patacones</div>
+<div class="section-divider"></div>
 
+<!-- PATACONES -->
+
+<section id="patacones" class="section">
+    <div class="section-header"></div>
+  <div class="section-header">
+    <span class="section-label">Bien pisao</span>
+    <h2 class="section-title">Patacon</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="note-box">
+    <div class="note-big">maduro o verde?</div>
+    <div class="note-small">Tu elijes.</div>
+  </div>
   <div class="menu-grid">
     <div class="menu-item">
       <div class="item-info">
@@ -911,14 +959,14 @@
     <div class="note-big" style="font-size:0.9rem;">Preparadas con maíz tierno y queso de mano auténtico</div>
   </div>
   <div class="menu-grid">
-    <div class="menu-item">
+    <div class="menu-item" data-img="img/cachaqueso.jpg">
       <div class="item-info">
         <div class="item-name">Cachapa Extra queso</div>
         <div class="item-desc">La clásica venezolana: maíz tierno con un toque dulce, rellena con abundante queso de mano tradicional venezolano.</div>
       </div>
       <div class="item-price">$450</div>
     </div>
-    <div class="menu-item">
+    <div class="menu-item" data-img="img/cachapachicharron.jpg">
       <div class="item-info">
         <div class="item-name">Cachapa de chicharrón <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
         <div class="item-desc">Clásica cachapa de maíz suave, rellena con queso de mano y chicharrón crujiente que aporta un contraste irresistible.</div>
@@ -939,7 +987,7 @@
       </div>
       <div class="item-price">$530</div>
     </div>
-    <div class="menu-item">
+    <div class="menu-item" data-img="img/cachapabacon.jpg">
       <div class="item-info">
         <div class="item-name">Cachapa con tocineta <span class="star" aria-hidden="true">★</span><span class="sr-only">Favorito</span></div>
         <div class="item-desc">Cachapa de maíz tierno rellena con queso de mano y tiras de bacon crocante. Un contraste perfecto entre lo dulce, lo cremoso y lo ahumado.</div>
@@ -983,7 +1031,7 @@
       </div>
       <div class="item-price">$900</div>
     </div>
-    <div class="menu-item">
+    <div class="menu-item" data-img="img/pastares.jpg">
       <div class="item-info">
         <div class="item-name">Pasta Bolognesa</div>
         <div class="item-desc">Receta tradicional italiana: pasta con salsa boloñesa de res molida, cocida lentamente con tomates frescos, especias y hierbas aromáticas.</div>
@@ -1014,6 +1062,13 @@
       <div class="item-info">
         <div class="item-name">Margarita</div>
         <div class="item-desc">El clásico mexicano: tequila, triple sec y jugo de limón fresco, servido en copa escarchada con sal. En fresa, chinola, coco o limón.</div>
+      </div>
+      <div class="item-price">$275</div>
+    </div>
+    <div class="menu-item" data-img="img/orgasmo.jpg">
+      <div class="item-info">
+        <div class="item-name">Orgasmo</div>
+        <div class="item-desc">Cóctel cremoso y dulce con licor de café, crema irlandesa y amaretto. Suave, seductor e irresistible.</div>
       </div>
       <div class="item-price">$275</div>
     </div>
@@ -1080,43 +1135,92 @@
 <div id="imageModal" class="image-modal" aria-hidden="true">
   <img id="modalImg" alt="Foto del plato">
 </div>
-  <script>
-  const modal = document.getElementById("imageModal");
-  const modalImg = document.getElementById("modalImg");
 
-  // Abrir: al tocar un plato con data-img
-  document.querySelectorAll(".menu-item[data-img]").forEach(item => {
-    item.style.cursor = "pointer"; // opcional: indica que es clickeable
-    item.addEventListener("click", (e) => {
-      const imgSrc = item.getAttribute("data-img");
-      if (!imgSrc) return;
-
-      modalImg.src = imgSrc;
-      modal.classList.add("active");
-      modal.setAttribute("aria-hidden", "false");
-    });
-  });
-
-  // Cerrar: al tocar la imagen o el fondo
-  modal.addEventListener("click", () => {
-    modal.classList.remove("active");
-    modal.setAttribute("aria-hidden", "true");
-    modalImg.removeAttribute("src");
-  });
-
-  // Cerrar con tecla ESC (extra pro)
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("active")) {
-      modal.click();
-    }
-  });
-</script>
-<!-- Botón flotante WhatsApp -->
+<!-- Modal para ver videos -->
+<div id="videoModal" class="video-modal" aria-hidden="true">
+  <video id="menuVideo" autoplay muted playsinline loop></video>
+</div>
+  <!-- Botón flotante WhatsApp -->
 <a class="wa-float" href="https://wa.me/18297650416" target="_blank" aria-label="Escribir por WhatsApp">
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path fill="currentColor" d="M19.11 17.24c-.28-.14-1.64-.81-1.89-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.21-.6.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.38-1.63-1.54-1.9-.16-.28-.02-.43.12-.57.12-.12.28-.32.42-.48.14-.16.18-.28.28-.46.09-.18.05-.35-.02-.49-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.46h-.52c-.18 0-.46.07-.7.35-.25.28-.94.92-.94 2.25 0 1.33.97 2.62 1.11 2.8.14.18 1.91 2.92 4.62 4.1.65.28 1.15.45 1.54.58.65.21 1.25.18 1.72.11.52-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.18-.52-.32zM16.06 27.5h-.01c-1.98 0-3.92-.53-5.62-1.53l-.4-.24-3.96 1.04 1.06-3.86-.26-.4a11.43 11.43 0 01-1.78-6.13c0-6.33 5.16-11.48 11.5-11.48 3.07 0 5.96 1.2 8.13 3.37 2.17 2.17 3.36 5.06 3.36 8.13 0 6.33-5.16 11.49-11.48 11.49zm9.8-21.28A13.42 13.42 0 0016.05 2.5C8.65 2.5 2.63 8.52 2.63 15.92c0 2.36.62 4.67 1.8 6.71L2.5 29.5l7.04-1.85a13.4 13.4 0 006.51 1.67h.01c7.4 0 13.42-6.02 13.42-13.42 0-3.58-1.4-6.95-3.93-9.48z"/>
   </svg>
   <span>WhatsApp</span>
 </a>
+
+
+<script>
+  (function () {
+    const body = document.body;
+
+    const imageModal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImg");
+
+    const videoModal = document.getElementById("videoModal");
+    const videoPlayer = document.getElementById("menuVideo");
+
+    function openImage(src) {
+      if (!src || !imageModal || !modalImg) return;
+      modalImg.src = src;
+      imageModal.classList.add("active");
+      imageModal.setAttribute("aria-hidden", "false");
+      body.classList.add("modal-open");
+    }
+
+    function closeImage() {
+      if (!imageModal || !modalImg) return;
+      imageModal.classList.remove("active");
+      imageModal.setAttribute("aria-hidden", "true");
+      modalImg.removeAttribute("src");
+      body.classList.remove("modal-open");
+    }
+
+    function openVideo(src) {
+      if (!src || !videoModal || !videoPlayer) return;
+      videoPlayer.src = src;
+      videoModal.classList.add("active");
+      videoModal.setAttribute("aria-hidden", "false");
+      body.classList.add("modal-open");
+      // intenta reproducir sin romper si el navegador bloquea autoplay
+      const p = videoPlayer.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    }
+
+    function closeVideo() {
+      if (!videoModal || !videoPlayer) return;
+      videoModal.classList.remove("active");
+      videoModal.setAttribute("aria-hidden", "true");
+      videoPlayer.pause();
+      videoPlayer.removeAttribute("src");
+      body.classList.remove("modal-open");
+    }
+
+    // Marcar ítems con media como clickeables y abrir según data
+    document.querySelectorAll(".menu-item").forEach((item) => {
+      const video = item.getAttribute("data-video");
+      const img = item.getAttribute("data-img");
+
+      if (video || img) item.style.cursor = "pointer";
+
+      item.addEventListener("click", () => {
+        // Prioridad: video > imagen (más claro si un día alguien pone ambas)
+        if (video) return openVideo(video);
+        if (img) return openImage(img);
+      });
+    });
+
+    // Cerrar al tocar el fondo (modal completo)
+    if (imageModal) imageModal.addEventListener("click", closeImage);
+    if (videoModal) videoModal.addEventListener("click", closeVideo);
+
+    // Cerrar con ESC (imagen o video)
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (videoModal && videoModal.classList.contains("active")) return closeVideo();
+      if (imageModal && imageModal.classList.contains("active")) return closeImage();
+    });
+  })();
+</script>
+
 </body>
 </html>
