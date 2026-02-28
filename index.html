@@ -491,7 +491,8 @@ body::before {
     <form id="promoForm" class="promo-form" autocomplete="on">
       <label class="promo-field">
         <span class="promo-label">Nombre</span>
-        <input class="promo-input" name="nombre" type="text" required autocomplete="name" />
+        <input class="promo-input" name="nombre" type="text" required autocomplete="name"
+        oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúñÑ\s]/g, '')" />
       </label>
 
       <label class="promo-field">
@@ -501,7 +502,10 @@ body::before {
 
       <label class="promo-field">
         <span class="promo-label">Celular</span>
-        <input class="promo-input" name="celular" type="tel" required inputmode="tel" autocomplete="tel" />
+        <input class="promo-input" name="celular" type="tel" required inputmode="tel" autocomplete="tel"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        pattern="(809|829|849)[0-9]{7}" maxlength="10"
+        title="Debe ser un número válido de RD (809, 829 o 849)" />
       </label>
 
       <button type="submit" class="hours-close">ENVIAR</button>
@@ -556,6 +560,22 @@ if (alreadyClaimed === "1" && btnPromo) {
     e.preventDefault();
 
     const data = Object.fromEntries(new FormData(promoForm).entries());
+
+    // Validar nombre (solo letras y espacios)
+  const nombreValido = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/.test(data.nombre);
+
+    // Validar celular (solo números, mínimo 8 dígitos)
+  const celularValido = /^[0-9]{8,15}$/.test(data.celular);
+
+if (!nombreValido) {
+  alert("El nombre solo puede contener letras");
+  return;
+}
+
+if (!celularValido) {
+  alert("El celular solo puede contener números");
+  return;
+}
 
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbxWgx-C0ILGlSTGiJV1pV6WEw1ckOmwIceYc9GbyfAQUsB-4vhvVcscnJ7CrZmHY2oY/exec";
 
