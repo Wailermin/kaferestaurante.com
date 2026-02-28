@@ -639,6 +639,22 @@ if (alreadyClaimed === "1" && btnPromo) {
   try {
     const data = Object.fromEntries(new FormData(promoForm).entries());
 
+    // Validar edad mínima (16 años)
+    const hoy = new Date();
+    const fechaNacimiento = new Date(data.cumple);
+
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+    const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+      edad--;
+    }
+
+    if (edad < 16) {
+      alert("Debes tener al menos 16 años para participar.");
+      return;
+    }
+
     // Validar nombre (solo letras y espacios)
     const nombreValido = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/.test(data.nombre);
 
