@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a1628">
+<meta name="format-detection" content="telephone=no">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="KaFe Restaurante">
 
@@ -70,6 +71,7 @@
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   
@@ -87,7 +89,10 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html {
+  scroll-behavior: smooth;
+  background: var(--navy);
+}
 
   body {
     background: var(--navy);
@@ -395,9 +400,29 @@
   }
 
   .faq-a {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    .section-local-seo{
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+  }
+
+  .local-seo-copy{
+    max-width: 760px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.2rem;
+    text-align: center;
+  }
+
+  .local-seo-copy p{
     font-size: 0.82rem;
-    line-height: 1.8;
-    color: var(--text-muted);
+    line-height: 1.95;
+    color: rgba(240,232,216,0.70);
+    margin: 0;
   }
 
   /* ---- FOOTER ---- */
@@ -515,6 +540,8 @@
   cursor: zoom-out;
   transform: scale(.95);
   transition: transform .25s ease;
+  height: auto;
+  display: block;
 }
 
 .image-modal.active img{
@@ -529,6 +556,16 @@
   font-size: .75rem;
   letter-spacing: .15em;
   opacity: .9;
+}
+
+.hero-seo{
+  margin: 1rem auto 0;
+  max-width: 700px;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: rgba(240,232,216,0.68);
+  text-align: center;
+  padding: 0 1rem;
 }
 
 .hero-whatsapp a{
@@ -556,6 +593,8 @@
   right: 16px;
   bottom: 16px;
   z-index: 9998;
+  will-change: transform;
+  
 
   display: inline-flex;
   align-items: center;
@@ -617,6 +656,8 @@
   max-width: 90%;
   max-height: 80%;
   border-radius: 12px;
+  display: block;
+  height: auto;
 }
 </style>
 </head>
@@ -624,7 +665,7 @@
   <div class="top-alert" hidden>Cerrado hoy</div>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" aria-label="Menú principal de KaFe Restaurante">
   <div class="hero-bg-leaf">
     <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
       <path d="M200 20 C120 60, 40 140, 80 250 C120 360, 200 380, 200 380 C200 380, 280 360, 320 250 C360 140, 280 60, 200 20Z" fill="none" stroke="white" stroke-width="1.5"/>
@@ -747,7 +788,7 @@
     <div class="menu-item">
         <div class="item-info">
           <div class="item-name">Mofongo de solomillo de cerdo</div>
-          <div class="item-desc">Plátano majado con ajo y bacon, coronado con solomillo previamente marinado. No creeras que es cerdo</div>
+          <div class="item-desc">Plátano majado con ajo y bacon, coronado con solomillo de cerdo previamente marinado. Tan suave y jugoso que no creerás que es cerdo.</div>
         </div>
         <div class="item-price">$765</div>
       </div>
@@ -858,7 +899,7 @@
     <div class="section-header"></div>
   <div class="section-header">
     <span class="section-label">Bien pisao</span>
-    <h2 class="section-title">Patacon</h2>
+    <h2 class="section-title">Patacones</h2>
     <div class="section-line"></div>
   </div>
   <div class="note-box">
@@ -916,7 +957,7 @@
     </div>
     <div class="menu-item">
       <div class="item-info">
-        <div class="item-name">Salmon a la chinola</div>
+        <div class="item-name">Salmón a la chinola</div>
         <div class="item-desc">Salmón a la plancha bañado en nuestra salsa de chinola agridulce, fresca y vibrante.</div>
       </div>
       <div class="item-price">$1,250</div>
@@ -931,7 +972,7 @@
      <div class="menu-item">
       <div class="item-info">
         <div class="item-name">Camarones a la criolla</div>
-        <div class="item-desc">Salteados en mantequilla de ajo y bañados en salsa pomodoro</div>
+       <div class="item-desc">Camarones salteados en mantequilla de ajo y bañados en salsa pomodoro, con un balance perfecto entre frescura y sabor criollo.</div>
       </div>
       <div class="item-price">$1,160</div>
     </div>
@@ -1068,8 +1109,7 @@
     <div class="section-line"></div>
   </div>
   <div class="note-box" style="margin-bottom: 2.5rem; margin-top: 0;">
-    <div class="note-big" style="font-size:0.9rem;">Elige tu pasta: espaguetti, penne o linguini</div>
-  </div>
+  <div class="note-big" style="font-size:0.9rem;">Elige tu pasta: espagueti, penne o linguini</div>  </div>
   <div class="menu-grid">
     <div class="menu-item">
       <div class="item-info">
@@ -1150,7 +1190,7 @@
     <div class="menu-item">
       <div class="item-info">
         <div class="item-name">AMF</div>
-        <div class="item-desc">Adiós Mother F*er — un trago fuerte y llamativo con azul intenso de vodka, ron, tequila, ginebra y sumo de limón.</div>
+        <div class="item-desc">Adiós Mother F*er — un cóctel fuerte y llamativo, de color azul intenso, preparado con vodka, ron, tequila, ginebra y zumo de limón.</div>
       </div>
       <div class="item-price">$250</div>
     </div>
@@ -1181,25 +1221,46 @@
     </div>
     <div class="faq-item">
       <div class="faq-q">¿Va a demorar mucho?</div>
-      <div class="faq-a">La comida se prepara en el momento para asegurar calidad y frescura. El tiempo promedio es de 25 a 30 minutos, porque creemos que la buena comida merece su tiempo.</div>
+      <div class="faq-a">La comida se prepara al momento para asegurar calidad y frescura. El tiempo promedio de entrega en mesa es de 25 a 30 minutos, porque creemos que la buena comida merece su tiempo.</div>
     </div>
+  </div>
+
+  <div class="section-header">
+    <span class="section-label">KaFe en Higüey</span>
+    <h2 class="section-title">Restaurante con menú digital y atención por WhatsApp</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="local-seo-copy">
+    <p>
+      KaFe Restaurante está ubicado en Higüey, cerca de la Basílica, y ofrece una propuesta
+      gastronómica con sabores caribeños, venezolanos y platos pensados para compartir o disfrutar
+      de forma personal. En nuestro menú digital encontrarás entradas, mofongos, arepas, cachapas,
+      pastas, hamburguesas, platos fuertes y cócteles.
+    </p>
+
+    <p>
+      Si buscas qué comer en Higüey, puedes revisar nuestro menú desde tu celular y ordenar fácilmente
+      por WhatsApp. También puedes visitarnos para disfrutar una experiencia cálida, platos recién hechos
+      y atención cercana en KaFe Restaurante.
+    </p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">KaFe</div>
-  <div class="footer-text">Restaurant · Calle Remigio del Castillo, Próx. Basílica</div>
+  <div class="footer-text">Restaurante · Calle Remigio del Castillo, Próx. Basílica</div>
   <div class="footer-text" style="margin-top:0.5rem; opacity:0.3;">★ Favorito de nuestros clientes</div>
 </footer>
 <!-- Modal para ver fotos -->
 <div id="imageModal" class="image-modal" aria-hidden="true">
-  <img id="modalImg" alt="Foto del plato">
+  <img id="modalImg" alt="Imagen del plato de KaFe Restaurante">
 </div>
 
 <!-- Modal para ver videos -->
 <div id="videoModal" class="video-modal" aria-hidden="true">
-  <video id="menuVideo" autoplay muted playsinline loop></video>
+  <video id="menuVideo" autoplay muted playsinline loop aria-label="Video de plato de KaFe Restaurante"></video>
 </div>
   <!-- Botón flotante WhatsApp -->
 <a class="wa-float" href="https://wa.me/18297650416" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp a KaFe Restaurante">
@@ -1220,9 +1281,10 @@
     const videoModal = document.getElementById("videoModal");
     const videoPlayer = document.getElementById("menuVideo");
 
-    function openImage(src) {
+    function openImage(src, altText = "Imagen del plato de KaFe Restaurante") {
       if (!src || !imageModal || !modalImg) return;
       modalImg.src = src;
+      modalImg.alt = altText;
       imageModal.classList.add("active");
       imageModal.setAttribute("aria-hidden", "false");
       body.classList.add("modal-open");
@@ -1260,13 +1322,13 @@
     document.querySelectorAll(".menu-item").forEach((item) => {
       const video = item.getAttribute("data-video");
       const img = item.getAttribute("data-img");
+      const itemName = item.querySelector(".item-name")?.childNodes[0]?.textContent?.trim() || "Plato de KaFe Restaurante";
 
       if (video || img) item.style.cursor = "pointer";
 
       item.addEventListener("click", () => {
-        // Prioridad: video > imagen (más claro si un día alguien pone ambas)
         if (video) return openVideo(video);
-        if (img) return openImage(img);
+        if (img) return openImage(img, itemName + " en KaFe Restaurante");
       });
     });
 
