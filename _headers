@@ -1,0 +1,11 @@
+/menu
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/menu/
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/menu/index.html
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/menu/img/*
+  Cache-Control: public, max-age=31536000, immutable
