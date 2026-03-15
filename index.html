@@ -49,59 +49,58 @@
 <!-- DATOS ESTRUCTURADOS -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Restaurant",
-  "@id": "https://kaferestaurante.com/#restaurant",
-  "name": "KaFe Restaurante",
-  "url": "https://kaferestaurante.com/",
-  "image": [
-    "https://kaferestaurante.com/menu/img/present.jpg",
-    "https://kaferestaurante.com/menu/img/flama.png"
-  ],
-  "logo": "https://kaferestaurante.com/menu/img/flama.png",
-  "telephone": "+1-829-765-0416",
-  "servesCuisine": [
-    "Comida latina",
-    "Comida caribeña",
-    "Pastas",
-    "Mofongo"
-  ],
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Calle Remigio del Castillo, próximo a la Basílica",
-    "addressLocality": "Higüey",
-    "addressRegion": "La Altagracia",
-    "addressCountry": "DO"
-  },
-  "areaServed": "Higüey",
-  "hasMenu": "https://kaferestaurante.com/menu/",
-  "acceptsReservations": "False",
-  "sameAs": [
-    "https://www.instagram.com/kaferestaurante/",
-    "https://maps.app.goo.gl/n3WgTbJfYxoevnhr8"
-  ],
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Monday",
-      "opens": "00:00",
-      "closes": "00:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ],
-      "opens": "11:00",
-      "closes": "23:00"
-    }
-  ]
+ "@context": "https://schema.org",
+ "@type": "Restaurant",
+ "@id": "https://kaferestaurante.com/#restaurant",
+ "name": "KaFe Restaurante",
+ "url": "https://kaferestaurante.com/",
+ "image": [
+   "https://kaferestaurante.com/menu/img/present.jpg",
+   "https://kaferestaurante.com/menu/img/flama.png"
+ ],
+ "logo": "https://kaferestaurante.com/menu/img/flama.png",
+ "telephone": "+1-829-765-0416",
+ "servesCuisine": [
+   "Comida latina",
+   "Comida caribeña",
+   "Pastas",
+   "Mofongo"
+ ],
+ "priceRange": "$$",
+ "address": {
+   "@type": "PostalAddress",
+   "streetAddress": "Calle Remigio del Castillo, próximo a la Basílica",
+   "addressLocality": "Higüey",
+   "addressRegion": "La Altagracia",
+   "addressCountry": "DO"
+ },
+ "geo": {
+   "@type": "GeoCoordinates",
+   "latitude": 18.5505,
+   "longitude": -68.7074
+ },
+ "areaServed": "Higüey",
+ "menu": "https://kaferestaurante.com/menu/",
+ "acceptsReservations": "False",
+ "sameAs": [
+   "https://www.instagram.com/kaferestaurante/",
+   "https://maps.app.goo.gl/n3WgTbJfYxoevnhr8"
+ ],
+ "openingHoursSpecification": [
+   {
+     "@type": "OpeningHoursSpecification",
+     "dayOfWeek": [
+       "Tuesday",
+       "Wednesday",
+       "Thursday",
+       "Friday",
+       "Saturday",
+       "Sunday"
+     ],
+     "opens": "11:00",
+     "closes": "23:00"
+   }
+ ]
 }
 </script>
 
@@ -599,16 +598,25 @@ body::before {
     });
 
   </script>
-<section style="margin:3rem auto 2rem; text-align:center; max-width:600px; padding:1rem;">
-  <h1 style="font-size:0.01px; line-height:0; margin:0; opacity:0; position:absolute; left:-9999px;">
-    KaFe Restaurante en Higüey | Menú digital, delivery y WhatsApp
-  </h1>
+  <section style="margin:3rem auto 2rem; text-align:center; max-width:720px; padding:1rem;">
+    
+    <h1 style="font-size:1.15rem; letter-spacing:0.15em; color:#c9a84c;">
+      Qué comer en Higüey
+    </h1>
 
-  <p style="font-size:0.75rem; opacity:0.6; line-height:1.7;">
-    Si estás buscando qué comer en Higüey, en KaFe Restaurante encontrarás mofongo,
-    pastas, pechuga a la crema y más. Ordena fácil por WhatsApp 829-765-0416 o revisa nuestro menú digital.
-  </p>
-</section>
+    <p style="font-size:0.8rem; opacity:0.65; line-height:1.8;">
+      Si estás buscando qué comer en Higüey, en KaFe Restaurante encontrarás una propuesta gastronómica que mezcla sabores venezolanos, caribeños y platos clásicos muy queridos por nuestros clientes.
+    </p>
+
+    <p style="font-size:0.8rem; opacity:0.65; line-height:1.8;">
+      Nuestro menú incluye mofongos, cachapas, arepas, pastas, pechuga a la crema, hamburguesas, camarones y una selección de cócteles. Estamos ubicados cerca de la Basílica de Higüey y puedes ordenar fácilmente desde tu celular.
+    </p>
+
+    <p style="font-size:0.8rem; opacity:0.65; line-height:1.8;">
+      Revisa nuestro menú digital o escríbenos por WhatsApp para ordenar. En KaFe Restaurante queremos que cada visita sea una experiencia llena de sabor.
+    </p>
+
+  </section>
 
 <!-- Modal Bebida Gratis -->
 <div class="hours-modal" id="promoModal" aria-hidden="true">
@@ -749,7 +757,7 @@ if (btnPromo) btnPromo.style.display = "none";
 
 // Crear WhatsApp primero
 const BUSINESS_WA = "18297650416"; 
-const msg = `Hola, soy ${data.nombre}. Quiero mi trago gratis 😬😬  https://g.page/r/CaJira9AXrMGEAE/review`;
+const msg = `Hola, soy ${data.nombre}. Quiero mi trago gratis 😬😬 Rese;a: https://g.page/r/CaJira9AXrMGEAE/review`;
 const waUrl = `https://wa.me/${BUSINESS_WA}?text=${encodeURIComponent(msg)}`;
 
 // Aviso al usuario
