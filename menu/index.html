@@ -1629,11 +1629,21 @@
   (function() {
     const input = document.getElementById('menu-search');
     const noResults = document.getElementById('search-no-results');
+    const hero = document.querySelector('.hero');
+    const dividers = document.querySelectorAll('.section-divider');
+
+    function norm(str) {
+      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
 
     input.addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
+      const q = norm(this.value.trim());
       const sections = document.querySelectorAll('.section');
       let totalVisible = 0;
+
+      const searching = q.length > 0;
+      if (hero) hero.style.display = searching ? 'none' : '';
+      dividers.forEach(d => d.style.display = searching ? 'none' : '');
 
       sections.forEach(function(section) {
         const items = section.querySelectorAll('.menu-item');
@@ -1642,16 +1652,20 @@
         items.forEach(function(item) {
           const name = (item.querySelector('.item-name') || {}).textContent || '';
           const desc = (item.querySelector('.item-desc') || {}).textContent || '';
-          const match = !q || (name + ' ' + desc).toLowerCase().includes(q);
+          const match = !q || norm(name + ' ' + desc).includes(q);
           item.style.display = match ? '' : 'none';
           if (match) sectionVisible++;
         });
+
+        const noteBox = section.querySelector('.note-box');
+        if (noteBox) noteBox.style.display = sectionVisible > 0 || !q ? '' : 'none';
 
         section.style.display = sectionVisible > 0 || !q ? '' : 'none';
         totalVisible += sectionVisible;
       });
 
       noResults.style.display = q && totalVisible === 0 ? 'block' : 'none';
+      if (searching) window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   })();
 </script>
