@@ -722,6 +722,101 @@
 </style>
 </head>
 <body>
+
+  <!-- Popup Jueves Karaoke -->
+<style>
+@keyframes karaokeIn {
+  0%   { opacity:0; transform: scale(0.7) translateY(40px); }
+  60%  { opacity:1; transform: scale(1.04) translateY(-6px); }
+  80%  { transform: scale(0.97) translateY(2px); }
+  100% { opacity:1; transform: scale(1) translateY(0); }
+}
+@keyframes karaokeOut {
+  0%   { opacity:1; transform: scale(1) translateY(0); }
+  100% { opacity:0; transform: scale(0.75) translateY(60px); }
+}
+@keyframes bgFadeIn {
+  from { background: rgba(0,0,0,0); }
+  to   { background: rgba(0,0,0,0.80); }
+}
+@keyframes bgFadeOut {
+  from { background: rgba(0,0,0,0.80); }
+  to   { background: rgba(0,0,0,0); }
+}
+#karaokeModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+#karaokeModal.entrada {
+  animation: bgFadeIn 0.5s ease forwards;
+}
+#karaokeModal.salida {
+  animation: bgFadeOut 0.35s ease forwards;
+}
+#karaokeImg {
+  max-width: min(480px, 92%);
+  max-height: 85svh;
+  border-radius: 18px;
+  cursor: pointer;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.7));
+}
+#karaokeImg.entrada {
+  animation: karaokeIn 0.6s cubic-bezier(.22,1,.36,1) forwards;
+}
+#karaokeImg.salida {
+  animation: karaokeOut 0.35s cubic-bezier(.55,0,1,.45) forwards;
+}
+</style>
+
+<div id="karaokeModal">
+  <img src="/menu/img/juevesdekareoke.jpg"
+       alt="Jueves de Karaoke y Cócteles 2x1 en KaFe Restaurante"
+       id="karaokeImg">
+</div>
+
+<script>
+(function(){
+  const hoy = new Date().getDay();
+  if (hoy !== 4) return;
+
+  const modal = document.getElementById("karaokeModal");
+  const img   = document.getElementById("karaokeImg");
+
+  function cerrar() {
+    modal.classList.remove("entrada");
+    modal.classList.add("salida");
+    img.classList.remove("entrada");
+    img.classList.add("salida");
+    setTimeout(() => {
+      modal.style.display = "none";
+      modal.classList.remove("salida");
+      img.classList.remove("salida");
+    }, 380);
+  }
+
+  setTimeout(() => {
+    modal.style.display = "flex";
+    requestAnimationFrame(() => {
+      modal.classList.add("entrada");
+      img.classList.add("entrada");
+    });
+  }, 2000);
+
+  modal.addEventListener("click", cerrar);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") cerrar();
+  });
+})();
+</script>
+
+
   <div class="top-alert" hidden>Cerrado hoy</div>
 
 <!-- HERO -->
