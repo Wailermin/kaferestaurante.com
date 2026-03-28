@@ -489,6 +489,14 @@ body::before {
   animation: slideInLeft .6s cubic-bezier(.22,1,.36,1) forwards;
 }
 
+@media (prefers-reduced-motion: reduce){
+  .link-btn.reveal{
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
 /* pares (2,4,6...) entran desde la derecha */
 .link-btn.reveal:nth-child(even){
   transform: translateX(28px);
@@ -982,6 +990,14 @@ setTimeout(() => {
 });
   
 });
+
+// Fallback: si las animaciones no cargan, mostrar botones
+setTimeout(() => {
+  document.querySelectorAll('.link-btn.reveal').forEach(btn => {
+    btn.style.opacity = '1';
+    btn.style.transform = 'none';
+  });
+}, 1000);
 
 
 </script>
