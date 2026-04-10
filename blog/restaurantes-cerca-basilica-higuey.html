@@ -537,5 +537,230 @@
     </div>
   </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<style>
+#read-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#c9a84c,#e8c97a);z-index:9999;will-change:width}
+#blog-ripple{position:fixed;pointer-events:none;z-index:9997;border-radius:50%;width:60px;height:60px;top:0;left:0;border:1.5px solid rgba(201,168,76,0.5);transform:translate(-50%,-50%) scale(0);opacity:0}
+.split-char{display:inline-block;will-change:transform,opacity}
+.nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,0.08)}
+@keyframes borderPulse{0%,100%{border-left-color:#c9a84c}50%{border-left-color:#e8c97a}}
+.highlight-pulse{animation:borderPulse 2.5s ease-in-out 3}
+/* Rest card — estado inicial para GSAP */
+.rest-card{will-change:transform,opacity}
+/* Badge pop */
+@keyframes badgePop{0%{transform:scale(0) rotate(-10deg);opacity:0}65%{transform:scale(1.18) rotate(4deg);opacity:1}85%{transform:scale(0.94) rotate(-1deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.rest-badge.pop{animation:badgePop 0.55s cubic-bezier(.22,1,.36,1) forwards}
+/* Stars shimmer */
+@keyframes starsShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.rest-stars.shimmer{
+  background:linear-gradient(90deg,#c9a84c 20%,#fff 50%,#c9a84c 80%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:starsShimmer 1.3s linear forwards;
+}
+.cta-banner,.rest-card{will-change:transform,opacity}
+</style>
+<div id="read-progress" aria-hidden="true"></div>
+<div id="blog-ripple" aria-hidden="true"></div>
+<script>
+(function(){
+  'use strict';
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  function splitChars(el){
+    const text=el.childNodes[0]?el.childNodes[0].textContent:el.textContent;
+    const rest=Array.from(el.childNodes).slice(1);
+    const chars=text.split('').map(ch=>{const s=document.createElement('span');s.className='split-char';s.textContent=ch===' '?'\u00A0':ch;return s;});
+    el.innerHTML='';chars.forEach(s=>el.appendChild(s));rest.forEach(n=>el.appendChild(n));return chars;
+  }
+
+  /* 1. Progreso */
+  const bar=document.getElementById('read-progress');
+  if(bar) ScrollTrigger.create({start:'top top',end:'bottom bottom',onUpdate(s){gsap.set(bar,{width:(s.progress*100).toFixed(2)+'%'});}});
+
+  /* 2. Nav */
+  const nav=document.querySelector('.nav');
+  if(nav) ScrollTrigger.create({start:'top -10',onUpdate(s){nav.classList.toggle('scrolled',s.progress>0);}});
+
+  /* 3. Hero */
+  (function(){
+    const tag=document.querySelector('.hero-tag');
+    const h1=document.querySelector('.hero h1');
+    const meta=document.querySelector('.hero-meta');
+    if(tag){gsap.set(tag,{opacity:0,y:-14});gsap.to(tag,{opacity:1,y:0,duration:0.6,ease:'power2.out',delay:0.1});}
+    if(h1){const c=splitChars(h1);gsap.set(c,{y:-28,opacity:0});gsap.to(c,{y:0,opacity:1,duration:0.65,ease:'power3.out',stagger:{each:0.018,from:'start'},delay:0.3});}
+    if(meta){gsap.set(meta,{opacity:0,y:10});gsap.to(meta,{opacity:1,y:0,duration:0.6,ease:'power2.out',delay:0.95});}
+  })();
+
+  /* 4. TOC */
+  const toc=document.querySelector('.toc');
+  if(toc){
+    gsap.set(toc,{opacity:0,x:-28});
+    ScrollTrigger.create({trigger:toc,start:'top 88%',once:true,onEnter(){
+      gsap.to(toc,{opacity:1,x:0,duration:0.7,ease:'power3.out'});
+      gsap.fromTo(toc.querySelectorAll('li'),{opacity:0,x:-14},{opacity:1,x:0,duration:0.4,stagger:0.07,ease:'power2.out',delay:0.2});
+    }});
+  }
+
+  /* 5. H2 chars */
+  document.querySelectorAll('article h2').forEach(h2=>{
+    const c=splitChars(h2);gsap.set(c,{y:22,opacity:0});
+    ScrollTrigger.create({trigger:h2,start:'top 88%',once:true,onEnter(){gsap.to(c,{y:0,opacity:1,duration:0.55,ease:'power3.out',stagger:{each:0.022,from:'start'}});}});
+  });
+
+  /* 6. H3 */
+  document.querySelectorAll('article h3').forEach(h3=>{
+    gsap.set(h3,{opacity:0,x:-20});
+    ScrollTrigger.create({trigger:h3,start:'top 90%',once:true,onEnter(){gsap.to(h3,{opacity:1,x:0,duration:0.55,ease:'power2.out'});}});
+  });
+
+  /* 7. Párrafos */
+  document.querySelectorAll('article > p').forEach(p=>{
+    gsap.set(p,{opacity:0,y:16});
+    ScrollTrigger.create({trigger:p,start:'top 93%',once:true,onEnter(){gsap.to(p,{opacity:1,y:0,duration:0.5,ease:'power2.out'});}});
+  });
+
+  /* 8. Dividers */
+  document.querySelectorAll('.divider').forEach(d=>{
+    gsap.set(d,{scaleX:0,transformOrigin:'left'});
+    ScrollTrigger.create({trigger:d,start:'top 92%',once:true,onEnter(){gsap.to(d,{scaleX:1,duration:0.8,ease:'power3.out'});}});
+  });
+
+  /* 9. Highlights */
+  document.querySelectorAll('.highlight').forEach(box=>{
+    gsap.set(box,{opacity:0,x:-24});
+    ScrollTrigger.create({trigger:box,start:'top 88%',once:true,onEnter(){
+      gsap.to(box,{opacity:1,x:0,duration:0.65,ease:'power3.out',onComplete(){box.classList.add('highlight-pulse');}});
+    }});
+  });
+
+  /* 10. Listas */
+  document.querySelectorAll('article ul, article ol').forEach(list=>{
+    const items=list.querySelectorAll('li');
+    items.forEach(li=>gsap.set(li,{opacity:0,x:-16}));
+    ScrollTrigger.create({trigger:list,start:'top 88%',once:true,onEnter(){gsap.to(items,{opacity:1,x:0,duration:0.42,stagger:0.07,ease:'power2.out'});}});
+  });
+
+  /* ═══════════════════════════════════════
+     11. REST CARD — el efecto estrella
+     Entra desde abajo con escala, luego:
+     - el badge hace pop con rotación
+     - las estrellas hacen shimmer dorado
+     - la descripción aparece línea a línea
+     - los meta-items entran en stagger
+  ═══════════════════════════════════════ */
+  document.querySelectorAll('.rest-card').forEach((card, i) => {
+    const badge   = card.querySelector('.rest-badge');
+    const stars   = card.querySelector('.rest-stars');
+    const desc    = card.querySelector('.rest-desc');
+    const name    = card.querySelector('.rest-name');
+    const metaItems = card.querySelectorAll('.rest-meta > *');
+
+    gsap.set(card, { opacity: 0, y: 40, scale: 0.96 });
+    if(badge)  gsap.set(badge,  { scale: 0, opacity: 0 });
+    if(name)   gsap.set(name,   { opacity: 0, x: -16 });
+    if(stars)  gsap.set(stars,  { opacity: 0 });
+    if(desc)   gsap.set(desc,   { opacity: 0, y: 12 });
+    metaItems.forEach(m => gsap.set(m, { opacity: 0, y: 8 }));
+
+    const d = i * 0.12;
+
+    ScrollTrigger.create({ trigger: card, start: 'top 86%', once: true,
+      onEnter() {
+        // 1. Card sube con back.out
+        gsap.to(card, { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'back.out(1.5)', delay: d });
+
+        // 2. Nombre desliza desde izquierda
+        if(name) gsap.to(name, { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out', delay: d + 0.2 });
+
+        // 3. Badge hace pop con rotación
+        if(badge) {
+          setTimeout(() => {
+            gsap.set(badge, { opacity: 1 });
+            badge.classList.add('pop');
+          }, (d + 0.38) * 1000);
+        }
+
+        // 4. Estrellas con shimmer dorado
+        if(stars) {
+          gsap.to(stars, { opacity: 1, duration: 0.3, delay: d + 0.5,
+            onComplete() { stars.classList.add('shimmer'); }
+          });
+        }
+
+        // 5. Descripción fade-up
+        if(desc) gsap.to(desc, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', delay: d + 0.6 });
+
+        // 6. Meta items en cascada
+        if(metaItems.length) {
+          gsap.to(metaItems, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out', delay: d + 0.75 });
+        }
+      }
+    });
+
+    // Hover / touch
+    const isTouch = window.matchMedia('(pointer:coarse)').matches;
+    if(isTouch) {
+      card.addEventListener('touchstart', () => gsap.to(card, { scale: 1.015, duration: 0.15 }), { passive: true });
+      card.addEventListener('touchend',   () => gsap.to(card, { scale: 1, duration: 0.35, ease: 'back.out(1.8)' }));
+    } else {
+      card.addEventListener('mouseenter', () => gsap.to(card, { y: -4, duration: 0.22, ease: 'power2.out' }));
+      card.addEventListener('mouseleave', () => gsap.to(card, { y:  0, duration: 0.3,  ease: 'power2.inOut' }));
+    }
+  });
+
+  /* 12. CTA Banner */
+  const cta=document.querySelector('.cta-banner');
+  if(cta){
+    gsap.set(cta,{opacity:0,y:36,scale:0.97});
+    ScrollTrigger.create({trigger:cta,start:'top 85%',once:true,onEnter(){
+      gsap.to(cta,{opacity:1,y:0,scale:1,duration:0.8,ease:'back.out(1.3)'});
+      const btns=cta.querySelectorAll('.btn-gold,.btn-outline');
+      gsap.fromTo(btns,{opacity:0,y:12},{opacity:1,y:0,duration:0.45,stagger:0.1,ease:'power2.out',delay:0.35});
+      btns.forEach(btn=>{
+        btn.addEventListener('mouseenter',()=>gsap.to(btn,{scale:1.05,duration:0.18}));
+        btn.addEventListener('mouseleave',()=>gsap.to(btn,{scale:1,duration:0.25,ease:'back.out(2)'}));
+        btn.addEventListener('touchstart',()=>gsap.to(btn,{scale:1.06,duration:0.15}),{passive:true});
+        btn.addEventListener('touchend',()=>gsap.to(btn,{scale:1,duration:0.3,ease:'back.out(2)'}));
+      });
+    }});
+  }
+
+  /* 13. Related */
+  const related=document.querySelector('.related');
+  if(related){
+    gsap.set(related,{opacity:0,y:20});
+    ScrollTrigger.create({trigger:related,start:'top 90%',once:true,onEnter(){
+      gsap.to(related,{opacity:1,y:0,duration:0.6,ease:'power2.out'});
+      gsap.fromTo(related.querySelectorAll('a'),{opacity:0,x:-14},{opacity:1,x:0,duration:0.4,stagger:0.1,ease:'power2.out',delay:0.2});
+    }});
+  }
+
+  /* 14. Touch ripple */
+  const ripple=document.getElementById('blog-ripple');
+  if(ripple){
+    function fire(x,y){gsap.killTweensOf(ripple);gsap.set(ripple,{left:x,top:y,scale:0,opacity:1});gsap.to(ripple,{scale:3.5,opacity:0,duration:0.65,ease:'power2.out'});}
+    document.addEventListener('touchstart',e=>fire(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+    document.addEventListener('click',e=>fire(e.clientX,e.clientY));
+  }
+
+  /* 15. Footer */
+  const footer=document.querySelector('.footer');
+  if(footer){
+    gsap.set(footer,{opacity:0});
+    ScrollTrigger.create({trigger:footer,start:'top 92%',once:true,onEnter(){gsap.to(footer,{opacity:1,duration:1,ease:'power1.out'});}});
+  }
+
+  /* Fallback */
+  setTimeout(()=>{
+    document.querySelectorAll('h1,h2,h3,p,li,.rest-card,.highlight,.cta-banner,.toc,.related,.footer').forEach(el=>{
+      if(parseFloat(getComputedStyle(el).opacity)<0.5) gsap.set(el,{clearProps:'all'});
+    });
+  },3000);
+})();
+</script>
+
 </body>
 </html>

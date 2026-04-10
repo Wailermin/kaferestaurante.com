@@ -321,5 +321,369 @@
     </div>
   </footer>
 
+<!-- GSAP gratuito -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<style>
+/* ── Progreso de lectura ── */
+#read-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #c9a84c, #e8c97a);
+  z-index: 9999;
+  transform-origin: left;
+  will-change: width;
+}
+
+/* ── Touch ripple ── */
+#blog-ripple {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9997;
+  border-radius: 50%;
+  width: 60px; height: 60px;
+  top: 0; left: 0;
+  border: 1.5px solid rgba(201,168,76,0.5);
+  transform: translate(-50%,-50%) scale(0);
+  opacity: 0;
+}
+
+/* ── Char split ── */
+.split-char { display: inline-block; will-change: transform, opacity; }
+
+/* ── Dish cards estado inicial ── */
+.dish-card { will-change: transform, opacity; }
+
+/* ── Highlight pulse ── */
+@keyframes borderPulse {
+  0%,100% { border-left-color: #c9a84c; }
+  50%      { border-left-color: #e8c97a; }
+}
+.highlight-pulse { animation: borderPulse 2.5s ease-in-out 3; }
+
+/* ── CTA banner ── */
+.cta-banner { will-change: transform, opacity; }
+
+/* ── Divider line grow ── */
+.divider { transform-origin: left; will-change: transform; }
+
+/* ── TOC smooth reveal ── */
+.toc { will-change: transform, opacity; }
+
+/* ── Sticky nav shadow on scroll ── */
+.nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+</style>
+
+<!-- Barra de progreso de lectura -->
+<div id="read-progress" aria-hidden="true"></div>
+<!-- Ripple de toque -->
+<div id="blog-ripple" aria-hidden="true"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Utilidad: split en caracteres ── */
+  function splitChars(el) {
+    const text = el.childNodes[0] ? el.childNodes[0].textContent : el.textContent;
+    const rest = Array.from(el.childNodes).slice(1);
+    const chars = text.split('').map(ch => {
+      const s = document.createElement('span');
+      s.className = 'split-char';
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      return s;
+    });
+    el.innerHTML = '';
+    chars.forEach(s => el.appendChild(s));
+    rest.forEach(n => el.appendChild(n));
+    return chars;
+  }
+
+  /* ═══════════════════════════════
+     1. BARRA DE PROGRESO DE LECTURA
+     — crece con el scroll
+  ═══════════════════════════════ */
+  const bar = document.getElementById('read-progress');
+  if (bar) {
+    ScrollTrigger.create({
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate(self) {
+        gsap.set(bar, { width: (self.progress * 100).toFixed(2) + '%' });
+      }
+    });
+  }
+
+  /* ═══════════════════════════════
+     2. NAV — sombra al hacer scroll
+  ═══════════════════════════════ */
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    ScrollTrigger.create({
+      start: 'top -10',
+      onUpdate(self) {
+        nav.classList.toggle('scrolled', self.progress > 0);
+      }
+    });
+  }
+
+  /* ═══════════════════════════════
+     3. HERO H1 — chars caen desde arriba
+  ═══════════════════════════════ */
+  (function initHero() {
+    const h1  = document.querySelector('.hero h1');
+    const tag = document.querySelector('.hero-tag');
+    const meta = document.querySelector('.hero-meta');
+    if (!h1) return;
+
+    // Tag entra primero
+    if (tag) {
+      gsap.set(tag, { opacity: 0, y: -14 });
+      gsap.to(tag, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.1 });
+    }
+
+    // Split h1
+    const chars = splitChars(h1);
+    gsap.set(chars, { y: -28, opacity: 0 });
+    gsap.to(chars, {
+      y: 0, opacity: 1,
+      duration: 0.65, ease: 'power3.out',
+      stagger: { each: 0.018, from: 'start' },
+      delay: 0.3
+    });
+
+    // Meta fade
+    if (meta) {
+      gsap.set(meta, { opacity: 0, y: 10 });
+      gsap.to(meta, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.9 });
+    }
+  })();
+
+  /* ═══════════════════════════════
+     4. TOC — slide desde la izquierda
+  ═══════════════════════════════ */
+  const toc = document.querySelector('.toc');
+  if (toc) {
+    gsap.set(toc, { opacity: 0, x: -30 });
+    ScrollTrigger.create({
+      trigger: toc, start: 'top 88%', once: true,
+      onEnter() {
+        gsap.to(toc, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out' });
+        // Links del TOC en stagger
+        const links = toc.querySelectorAll('li');
+        gsap.fromTo(links,
+          { opacity: 0, x: -15 },
+          { opacity: 1, x: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.2 }
+        );
+      }
+    });
+  }
+
+  /* ═══════════════════════════════
+     5. H2 TÍTULOS — chars de izquierda
+  ═══════════════════════════════ */
+  document.querySelectorAll('article h2').forEach(h2 => {
+    const chars = splitChars(h2);
+    gsap.set(chars, { y: 22, opacity: 0 });
+    ScrollTrigger.create({
+      trigger: h2, start: 'top 88%', once: true,
+      onEnter() {
+        gsap.to(chars, {
+          y: 0, opacity: 1,
+          duration: 0.55, ease: 'power3.out',
+          stagger: { each: 0.022, from: 'start' }
+        });
+      }
+    });
+  });
+
+  /* ═══════════════════════════════
+     6. H3 TÍTULOS — fade + slide
+  ═══════════════════════════════ */
+  document.querySelectorAll('article h3').forEach(h3 => {
+    gsap.set(h3, { opacity: 0, x: -20 });
+    ScrollTrigger.create({
+      trigger: h3, start: 'top 90%', once: true,
+      onEnter() {
+        gsap.to(h3, { opacity: 1, x: 0, duration: 0.55, ease: 'power2.out' });
+      }
+    });
+  });
+
+  /* ═══════════════════════════════
+     7. PÁRRAFOS — fade up suave
+  ═══════════════════════════════ */
+  document.querySelectorAll('article > p, article .container > p').forEach((p, i) => {
+    gsap.set(p, { opacity: 0, y: 16 });
+    ScrollTrigger.create({
+      trigger: p, start: 'top 93%', once: true,
+      onEnter() {
+        gsap.to(p, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', delay: 0.04 });
+      }
+    });
+  });
+
+  /* ═══════════════════════════════
+     8. DIVIDERS — crecen desde la izquierda
+  ═══════════════════════════════ */
+  document.querySelectorAll('.divider').forEach(d => {
+    gsap.set(d, { scaleX: 0, transformOrigin: 'left' });
+    ScrollTrigger.create({
+      trigger: d, start: 'top 92%', once: true,
+      onEnter() {
+        gsap.to(d, { scaleX: 1, duration: 0.8, ease: 'power3.out' });
+      }
+    });
+  });
+
+  /* ═══════════════════════════════
+     9. DISH CARDS — stagger en grid
+     alternando desde izquierda y derecha
+  ═══════════════════════════════ */
+  const dishGrid = document.querySelector('.dish-grid');
+  if (dishGrid) {
+    const cards = dishGrid.querySelectorAll('.dish-card');
+    cards.forEach((card, i) => {
+      const fromX = i % 2 === 0 ? -30 : 30;
+      gsap.set(card, { opacity: 0, x: fromX, y: 12 });
+    });
+    ScrollTrigger.create({
+      trigger: dishGrid, start: 'top 85%', once: true,
+      onEnter() {
+        gsap.to(cards, {
+          opacity: 1, x: 0, y: 0,
+          duration: 0.6, ease: 'back.out(1.3)',
+          stagger: { each: 0.08, from: 'start' }
+        });
+      }
+    });
+  }
+
+  /* ═══════════════════════════════
+     10. HIGHLIGHT BOXES — border glow + slide
+  ═══════════════════════════════ */
+  document.querySelectorAll('.highlight').forEach(box => {
+    gsap.set(box, { opacity: 0, x: -24 });
+    ScrollTrigger.create({
+      trigger: box, start: 'top 88%', once: true,
+      onEnter() {
+        gsap.to(box, {
+          opacity: 1, x: 0, duration: 0.65, ease: 'power3.out',
+          onComplete() { box.classList.add('highlight-pulse'); }
+        });
+      }
+    });
+  });
+
+  /* ═══════════════════════════════
+     11. LISTAS (ul/ol) — items en stagger
+  ═══════════════════════════════ */
+  document.querySelectorAll('article ul, article ol').forEach(list => {
+    const items = list.querySelectorAll('li');
+    items.forEach((li, i) => gsap.set(li, { opacity: 0, x: -18 }));
+    ScrollTrigger.create({
+      trigger: list, start: 'top 88%', once: true,
+      onEnter() {
+        gsap.to(items, {
+          opacity: 1, x: 0,
+          duration: 0.45, ease: 'power2.out',
+          stagger: 0.07
+        });
+      }
+    });
+  });
+
+  /* ═══════════════════════════════
+     12. CTA BANNER — scale up desde abajo
+  ═══════════════════════════════ */
+  const cta = document.querySelector('.cta-banner');
+  if (cta) {
+    gsap.set(cta, { opacity: 0, y: 40, scale: 0.97 });
+    ScrollTrigger.create({
+      trigger: cta, start: 'top 85%', once: true,
+      onEnter() {
+        gsap.to(cta, {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.8, ease: 'back.out(1.3)'
+        });
+        // Botones en stagger
+        const btns = cta.querySelectorAll('.btn-gold, .btn-outline');
+        gsap.fromTo(btns,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.45, stagger: 0.1, ease: 'power2.out', delay: 0.35 }
+        );
+      }
+    });
+    // Hover en botones
+    cta.querySelectorAll('.btn-gold, .btn-outline').forEach(btn => {
+      btn.addEventListener('mouseenter', () => gsap.to(btn, { scale: 1.05, duration: 0.18 }));
+      btn.addEventListener('mouseleave', () => gsap.to(btn, { scale: 1,    duration: 0.25, ease: 'back.out(2)' }));
+      btn.addEventListener('touchstart', () => gsap.to(btn, { scale: 1.05, duration: 0.15 }), { passive: true });
+      btn.addEventListener('touchend',   () => gsap.to(btn, { scale: 1,    duration: 0.3,  ease: 'back.out(2)' }));
+    });
+  }
+
+  /* ═══════════════════════════════
+     13. RELATED LINKS — fade + slide
+  ═══════════════════════════════ */
+  const related = document.querySelector('.related');
+  if (related) {
+    gsap.set(related, { opacity: 0, y: 20 });
+    ScrollTrigger.create({
+      trigger: related, start: 'top 90%', once: true,
+      onEnter() {
+        gsap.to(related, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        const links = related.querySelectorAll('a');
+        gsap.fromTo(links,
+          { opacity: 0, x: -14 },
+          { opacity: 1, x: 0, duration: 0.4, stagger: 0.1, ease: 'power2.out', delay: 0.2 }
+        );
+      }
+    });
+  }
+
+  /* ═══════════════════════════════
+     14. TOUCH RIPPLE — anillo dorado
+  ═══════════════════════════════ */
+  const ripple = document.getElementById('blog-ripple');
+  if (ripple) {
+    function fire(x, y) {
+      gsap.killTweensOf(ripple);
+      gsap.set(ripple, { left: x, top: y, scale: 0, opacity: 1 });
+      gsap.to(ripple, { scale: 3.5, opacity: 0, duration: 0.65, ease: 'power2.out' });
+    }
+    document.addEventListener('touchstart', e => fire(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    document.addEventListener('click', e => fire(e.clientX, e.clientY));
+  }
+
+  /* ═══════════════════════════════
+     15. FOOTER — fade in suave
+  ═══════════════════════════════ */
+  const footer = document.querySelector('.footer');
+  if (footer) {
+    gsap.set(footer, { opacity: 0 });
+    ScrollTrigger.create({
+      trigger: footer, start: 'top 92%', once: true,
+      onEnter() { gsap.to(footer, { opacity: 1, duration: 1, ease: 'power1.out' }); }
+    });
+  }
+
+  /* ── Fallback de seguridad ── */
+  setTimeout(() => {
+    document.querySelectorAll('h1, h2, h3, p, li, .dish-card, .highlight, .cta-banner, .toc, .related, .footer').forEach(el => {
+      if (parseFloat(getComputedStyle(el).opacity) < 0.5) gsap.set(el, { clearProps: 'all' });
+    });
+  }, 3000);
+
+})();
+</script>
+
 </body>
 </html>

@@ -291,5 +291,297 @@
     </div>
   </footer>
 
+<!-- GSAP gratuito -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<style>
+/* Barra de progreso */
+#read-progress {
+  position: fixed; top: 0; left: 0;
+  height: 3px; width: 0%;
+  background: linear-gradient(90deg, #c9a84c, #e8c97a);
+  z-index: 9999; will-change: width;
+}
+/* Touch ripple */
+#blog-ripple {
+  position: fixed; pointer-events: none; z-index: 9997;
+  border-radius: 50%; width: 60px; height: 60px;
+  top: 0; left: 0;
+  border: 1.5px solid rgba(201,168,76,0.5);
+  transform: translate(-50%,-50%) scale(0); opacity: 0;
+}
+/* Split chars */
+.split-char { display: inline-block; will-change: transform, opacity; }
+/* Nav shadow */
+.nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+/* Steps estado inicial */
+.step { will-change: transform, opacity; }
+/* Popular cards */
+.popular-card { will-change: transform, opacity; }
+/* Step-num glow al entrar */
+@keyframes numGlow {
+  0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  50%  { box-shadow: 0 0 0 8px rgba(201,168,76,0.2); }
+  100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+}
+.step-num.glow { animation: numGlow 0.8s ease forwards; }
+/* Highlight pulse */
+@keyframes borderPulse {
+  0%,100% { border-left-color: #c9a84c; }
+  50%      { border-left-color: #e8c97a; }
+}
+.highlight-pulse { animation: borderPulse 2.5s ease-in-out 3; }
+/* WA CTA */
+.wa-cta { will-change: transform, opacity; }
+</style>
+
+<div id="read-progress" aria-hidden="true"></div>
+<div id="blog-ripple" aria-hidden="true"></div>
+
+<script>
+(function () {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Split chars manual ── */
+  function splitChars(el) {
+    const text = el.childNodes[0] ? el.childNodes[0].textContent : el.textContent;
+    const rest = Array.from(el.childNodes).slice(1);
+    const chars = text.split('').map(ch => {
+      const s = document.createElement('span');
+      s.className = 'split-char';
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      return s;
+    });
+    el.innerHTML = '';
+    chars.forEach(s => el.appendChild(s));
+    rest.forEach(n => el.appendChild(n));
+    return chars;
+  }
+
+  /* ═══ 1. BARRA DE PROGRESO ═══ */
+  const bar = document.getElementById('read-progress');
+  if (bar) {
+    ScrollTrigger.create({
+      start: 'top top', end: 'bottom bottom',
+      onUpdate(self) { gsap.set(bar, { width: (self.progress * 100).toFixed(2) + '%' }); }
+    });
+  }
+
+  /* ═══ 2. NAV SOMBRA ═══ */
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    ScrollTrigger.create({
+      start: 'top -10',
+      onUpdate(self) { nav.classList.toggle('scrolled', self.progress > 0); }
+    });
+  }
+
+  /* ═══ 3. HERO — tag + h1 chars + meta ═══ */
+  (function () {
+    const tag  = document.querySelector('.hero-tag');
+    const h1   = document.querySelector('.hero h1');
+    const meta = document.querySelector('.hero-meta');
+    if (tag)  { gsap.set(tag,  { opacity: 0, y: -14 }); gsap.to(tag,  { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.1 }); }
+    if (h1)   {
+      const chars = splitChars(h1);
+      gsap.set(chars, { y: -28, opacity: 0 });
+      gsap.to(chars,  { y: 0, opacity: 1, duration: 0.65, ease: 'power3.out', stagger: { each: 0.018, from: 'start' }, delay: 0.3 });
+    }
+    if (meta) { gsap.set(meta, { opacity: 0, y: 10 }); gsap.to(meta, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.95 }); }
+  })();
+
+  /* ═══ 4. TOC ═══ */
+  const toc = document.querySelector('.toc');
+  if (toc) {
+    gsap.set(toc, { opacity: 0, x: -28 });
+    ScrollTrigger.create({ trigger: toc, start: 'top 88%', once: true,
+      onEnter() {
+        gsap.to(toc, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out' });
+        const li = toc.querySelectorAll('li');
+        gsap.fromTo(li, { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.07, ease: 'power2.out', delay: 0.2 });
+      }
+    });
+  }
+
+  /* ═══ 5. H2 CHARS ═══ */
+  document.querySelectorAll('article h2').forEach(h2 => {
+    const chars = splitChars(h2);
+    gsap.set(chars, { y: 22, opacity: 0 });
+    ScrollTrigger.create({ trigger: h2, start: 'top 88%', once: true,
+      onEnter() { gsap.to(chars, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: { each: 0.022, from: 'start' } }); }
+    });
+  });
+
+  /* ═══ 6. H3 SLIDE ═══ */
+  document.querySelectorAll('article h3').forEach(h3 => {
+    gsap.set(h3, { opacity: 0, x: -20 });
+    ScrollTrigger.create({ trigger: h3, start: 'top 90%', once: true,
+      onEnter() { gsap.to(h3, { opacity: 1, x: 0, duration: 0.55, ease: 'power2.out' }); }
+    });
+  });
+
+  /* ═══ 7. PÁRRAFOS FADE-UP ═══ */
+  document.querySelectorAll('article > p').forEach(p => {
+    gsap.set(p, { opacity: 0, y: 16 });
+    ScrollTrigger.create({ trigger: p, start: 'top 93%', once: true,
+      onEnter() { gsap.to(p, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }); }
+    });
+  });
+
+  /* ═══ 8. DIVIDERS ═══ */
+  document.querySelectorAll('.divider').forEach(d => {
+    gsap.set(d, { scaleX: 0, transformOrigin: 'left' });
+    ScrollTrigger.create({ trigger: d, start: 'top 92%', once: true,
+      onEnter() { gsap.to(d, { scaleX: 1, duration: 0.8, ease: 'power3.out' }); }
+    });
+  });
+
+  /* ═══ 9. STEPS — el efecto más elaborado
+     Cada paso entra desde el lado de su número,
+     el círculo numérico hace "pop" con glow dorado
+  ═══ */
+  document.querySelectorAll('.step').forEach((step, i) => {
+    const num     = step.querySelector('.step-num');
+    const content = step.querySelector('.step-content');
+
+    gsap.set(step,    { opacity: 0 });
+    gsap.set(num,     { scale: 0, rotation: -180 });
+    gsap.set(content, { opacity: 0, x: 24 });
+
+    ScrollTrigger.create({ trigger: step, start: 'top 88%', once: true,
+      onEnter() {
+        const delay = i * 0.18;
+        gsap.to(step,    { opacity: 1, duration: 0.1, delay });
+        // Número gira y hace pop
+        gsap.to(num, {
+          scale: 1, rotation: 0,
+          duration: 0.65, ease: 'back.out(2.2)', delay: delay + 0.05,
+          onComplete() { num.classList.add('glow'); }
+        });
+        // Contenido desliza desde la derecha
+        gsap.to(content, { opacity: 1, x: 0, duration: 0.55, ease: 'power3.out', delay: delay + 0.25 });
+        // Título del step
+        const title = step.querySelector('.step-title');
+        if (title) {
+          gsap.fromTo(title, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', delay: delay + 0.38 });
+        }
+      }
+    });
+  });
+
+  /* ═══ 10. HIGHLIGHT BOXES ═══ */
+  document.querySelectorAll('.highlight').forEach(box => {
+    gsap.set(box, { opacity: 0, x: -24 });
+    ScrollTrigger.create({ trigger: box, start: 'top 88%', once: true,
+      onEnter() {
+        gsap.to(box, { opacity: 1, x: 0, duration: 0.65, ease: 'power3.out',
+          onComplete() { box.classList.add('highlight-pulse'); }
+        });
+      }
+    });
+  });
+
+  /* ═══ 11. LISTAS ═══ */
+  document.querySelectorAll('article ul, article ol').forEach(list => {
+    const items = list.querySelectorAll('li');
+    items.forEach(li => gsap.set(li, { opacity: 0, x: -16 }));
+    ScrollTrigger.create({ trigger: list, start: 'top 88%', once: true,
+      onEnter() { gsap.to(items, { opacity: 1, x: 0, duration: 0.42, stagger: 0.07, ease: 'power2.out' }); }
+    });
+  });
+
+  /* ═══ 12. POPULAR CARDS — stagger diagonal ═══ */
+  const popGrid = document.querySelector('.popular-grid');
+  if (popGrid) {
+    const cards = popGrid.querySelectorAll('.popular-card');
+    cards.forEach((c, i) => gsap.set(c, { opacity: 0, y: 28, scale: 0.94 }));
+    ScrollTrigger.create({ trigger: popGrid, start: 'top 85%', once: true,
+      onEnter() {
+        gsap.to(cards, {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.55, ease: 'back.out(1.4)',
+          stagger: { each: 0.09, from: 'start' }
+        });
+      }
+    });
+    // Hover/touch en cards
+    const isTouch = window.matchMedia('(pointer:coarse)').matches;
+    cards.forEach(card => {
+      if (isTouch) {
+        card.addEventListener('touchstart', () => gsap.to(card, { scale: 1.03, duration: 0.15 }), { passive: true });
+        card.addEventListener('touchend',   () => gsap.to(card, { scale: 1,    duration: 0.3,  ease: 'back.out(1.8)' }));
+      } else {
+        card.addEventListener('mouseenter', () => gsap.to(card, { y: -4, duration: 0.22, ease: 'power2.out' }));
+        card.addEventListener('mouseleave', () => gsap.to(card, { y:  0, duration: 0.3,  ease: 'power2.inOut' }));
+      }
+    });
+  }
+
+  /* ═══ 13. WA CTA BLOCK ═══ */
+  const waCta = document.querySelector('.wa-cta');
+  if (waCta) {
+    gsap.set(waCta, { opacity: 0, y: 36, scale: 0.97 });
+    ScrollTrigger.create({ trigger: waCta, start: 'top 85%', once: true,
+      onEnter() {
+        gsap.to(waCta, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.3)' });
+        const btn = waCta.querySelector('.wa-btn');
+        if (btn) {
+          gsap.fromTo(btn, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.35 });
+          btn.addEventListener('mouseenter', () => gsap.to(btn, { scale: 1.05, duration: 0.18 }));
+          btn.addEventListener('mouseleave', () => gsap.to(btn, { scale: 1,    duration: 0.25, ease: 'back.out(2)' }));
+          btn.addEventListener('touchstart', () => gsap.to(btn, { scale: 1.06, duration: 0.15 }), { passive: true });
+          btn.addEventListener('touchend',   () => gsap.to(btn, { scale: 1,    duration: 0.3,  ease: 'back.out(2)' }));
+        }
+      }
+    });
+  }
+
+  /* ═══ 14. RELATED LINKS ═══ */
+  const related = document.querySelector('.related');
+  if (related) {
+    gsap.set(related, { opacity: 0, y: 20 });
+    ScrollTrigger.create({ trigger: related, start: 'top 90%', once: true,
+      onEnter() {
+        gsap.to(related, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        gsap.fromTo(related.querySelectorAll('a'), { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.1, ease: 'power2.out', delay: 0.2 });
+      }
+    });
+  }
+
+  /* ═══ 15. TOUCH RIPPLE ═══ */
+  const ripple = document.getElementById('blog-ripple');
+  if (ripple) {
+    function fire(x, y) {
+      gsap.killTweensOf(ripple);
+      gsap.set(ripple,  { left: x, top: y, scale: 0, opacity: 1 });
+      gsap.to(ripple,   { scale: 3.5, opacity: 0, duration: 0.65, ease: 'power2.out' });
+    }
+    document.addEventListener('touchstart', e => fire(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    document.addEventListener('click', e => fire(e.clientX, e.clientY));
+  }
+
+  /* ═══ 16. FOOTER ═══ */
+  const footer = document.querySelector('.footer');
+  if (footer) {
+    gsap.set(footer, { opacity: 0 });
+    ScrollTrigger.create({ trigger: footer, start: 'top 92%', once: true,
+      onEnter() { gsap.to(footer, { opacity: 1, duration: 1, ease: 'power1.out' }); }
+    });
+  }
+
+  /* Fallback */
+  setTimeout(() => {
+    document.querySelectorAll('h1,h2,h3,p,li,.step,.popular-card,.highlight,.wa-cta,.toc,.related,.footer').forEach(el => {
+      if (parseFloat(getComputedStyle(el).opacity) < 0.5) gsap.set(el, { clearProps: 'all' });
+    });
+  }, 3000);
+
+})();
+</script>
+
 </body>
 </html>
