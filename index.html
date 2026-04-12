@@ -137,7 +137,7 @@
     --gold: #c9a84c;
     --gold-light: #e8c97a;
     --cream: #f0e8d8;
-    --text-muted: rgba(240,232,216,0.55);
+    --text-muted: rgba(240,232,216,0.75);
     --star: #c9a84c;
   }
 .logo-script {
@@ -327,7 +327,7 @@ body::before {
 .small-note{
   margin-top: 1rem;
   text-align:center;
-  color: rgba(240,232,216,0.42);
+  color: rgba(240,232,216,0.62);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 0.65rem;
@@ -438,10 +438,24 @@ body::before {
   .link-btn { opacity: 1 !important; transform: none !important; }
   .review-card { opacity: 1 !important; }
 }
+
+/* Focus visible para navegación por teclado */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.link-btn:focus-visible,
+.hours-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
   </style>
 </head>
 
 <body>
+  <!-- Skip to main content para accesibilidad de teclado -->
+  <a href="#main-content" style="position:absolute;top:-100px;left:0;background:var(--gold);color:#0a1628;padding:8px 16px;border-radius:0 0 8px 0;font-size:0.8rem;font-weight:600;text-decoration:none;z-index:99999;transition:top .2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100px'">Saltar al contenido principal</a>
   <main class="landing" id="main-content">
     <section class="landing-card">
       <div class="leaf" aria-hidden="true">
@@ -457,8 +471,8 @@ body::before {
 
       <!-- Logo — invisible inicial, GSAP lo anima -->
       <h1 class="logo-script" id="logo-title" style="opacity:0" aria-label="KaFe Restaurante">KaFe</h1>
-      <div class="logo-sub" id="logo-sub" style="opacity:0">Restaurant</div>
-      <div class="hero-divider" id="hero-divider" style="opacity:0"></div>
+      <p class="logo-sub" id="logo-sub" style="opacity:0" aria-hidden="true">Restaurant</p>
+      <div class="hero-divider" id="hero-divider" style="opacity:0" aria-hidden="true"></div>
 
       <p class="landing-story" id="landing-story" style="opacity:0">
         Somos una pareja de venezolanos con mucho amor por esta hermosa isla. Nuestro objetivo es adaptar nuestra gastronomía al paladar dominicano, sin perder el sabor de casa.
@@ -517,12 +531,12 @@ body::before {
       <div class="small-note" id="small-note" style="opacity:0">Calle Remigio del Castillo · Próx. Basílica</div>
 
       <!-- Reseñas -->
-      <div class="reviews-section">
+      <div class="reviews-section" aria-label="Opiniones de clientes">
         <div id="reviews-header" style="text-align:center; margin-bottom:1.2rem; opacity:0;">
-          <span style="font-family:'Montserrat',sans-serif; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(240,232,216,0.45);">Lo que dicen nuestros clientes</span>
+          <span style="font-family:'Montserrat',sans-serif; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(240,232,216,0.65);">Lo que dicen nuestros clientes</span>
           <div style="margin-top:0.4rem;">
             <span style="color:#c9a84c; font-size:1rem;">★★★★★</span>
-            <span style="font-size:0.75rem; color:rgba(240,232,216,0.55); margin-left:0.4rem;">4.6 · 199 opiniones en Google</span>
+            <span style="font-size:0.75rem; color:rgba(240,232,216,0.70); margin-left:0.4rem;">4.6 · 199 opiniones en Google</span>
           </div>
         </div>
 
@@ -532,7 +546,7 @@ body::before {
               <span style="font-size:0.78rem; font-weight:500; color:rgba(240,232,216,0.85);">Mara Beato</span>
               <span style="color:#c9a84c; font-size:0.8rem;">★★★★★</span>
             </div>
-            <p style="font-size:0.78rem; color:rgba(240,232,216,0.55); line-height:1.6; margin:0;">"LO AMEEEEE!! El ambiente es muy bello, muy organizado. El servicio fue estupendo y muy atento. Y su comida... exquisita."</p>
+            <p style="font-size:0.78rem; color:rgba(240,232,216,0.72); line-height:1.6; margin:0;">"LO AMEEEEE!! El ambiente es muy bello, muy organizado. El servicio fue estupendo y muy atento. Y su comida... exquisita."</p>
           </div>
 
           <div class="review-card">
@@ -540,7 +554,7 @@ body::before {
               <span style="font-size:0.78rem; font-weight:500; color:rgba(240,232,216,0.85);">Emely</span>
               <span style="color:#c9a84c; font-size:0.8rem;">★★★★★</span>
             </div>
-            <p style="font-size:0.78rem; color:rgba(240,232,216,0.55); line-height:1.6; margin:0;">"Ofrece un mofongo delicioso y bien presentado. La calidad de los ingredientes es notable y el servicio es muy atento."</p>
+            <p style="font-size:0.78rem; color:rgba(240,232,216,0.72); line-height:1.6; margin:0;">"Ofrece un mofongo delicioso y bien presentado. La calidad de los ingredientes es notable y el servicio es muy atento."</p>
           </div>
 
           <div class="review-card">
@@ -548,13 +562,13 @@ body::before {
               <span style="font-size:0.78rem; font-weight:500; color:rgba(240,232,216,0.85);">K H</span>
               <span style="color:#c9a84c; font-size:0.8rem;">★★★★★</span>
             </div>
-            <p style="font-size:0.78rem; color:rgba(240,232,216,0.55); line-height:1.6; margin:0;">"Amazing food, very kind and helpful staff. Appreciated that card payment wasn't a problem. Thank you again!"</p>
+            <p style="font-size:0.78rem; color:rgba(240,232,216,0.72); line-height:1.6; margin:0;">"Amazing food, very kind and helpful staff. Appreciated that card payment wasn't a problem. Thank you again!"</p>
           </div>
         </div>
 
         <div style="text-align:center; margin-top:1rem;">
-          <a href="https://maps.app.goo.gl/n3WgTbJfYxoevnhr8" target="_blank" rel="noopener"
-             style="font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(201,168,76,0.65); text-decoration:none;">
+          <a href="https://maps.app.goo.gl/n3WgTbJfYxoevnhr8" target="_blank" rel="noopener noreferrer" aria-label="Ver todas las opiniones de KaFe Restaurante en Google (abre en nueva pestaña)"
+             style="font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(201,168,76,0.85); text-decoration:none;">
             Ver todas las opiniones en Google →
           </a>
         </div>
@@ -564,8 +578,8 @@ body::before {
 
   <!-- Modal Horario -->
   <div class="hours-modal" id="hoursModal" aria-hidden="true">
-    <div class="hours-sheet">
-      <div class="hours-title">Horario</div>
+    <div class="hours-sheet" role="dialog" aria-modal="true" aria-labelledby="hoursTitle">
+      <div class="hours-title" id="hoursTitle">Horario</div>
       <p class="hours-text">
         Lunes: Cerrados<br>
         Martes: 11:00 AM – 11:00 PM<br>
@@ -575,33 +589,33 @@ body::before {
         Sábado: 11:00 AM – 11:00 PM<br>
         Domingo: 11:00 AM – 11:00 PM<br>
       </p>
-      <button class="hours-close" id="closeHours">Cerrar</button>
+      <button class="hours-close" id="closeHours" aria-label="Cerrar modal de horario">Cerrar</button>
     </div>
   </div>
 
   <!-- Modal Bebida Gratis -->
-  <div class="hours-modal" id="promoModal" aria-hidden="true">
+  <div class="hours-modal" id="promoModal" aria-hidden="true" aria-live="polite">
     <div class="hours-sheet" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
       <p class="hours-title" id="promoTitle">BEBIDA GRATIS</p>
       <form id="promoForm" class="promo-form" autocomplete="on">
-        <label class="promo-field">
-          <span class="promo-label">Nombre</span>
-          <input class="promo-input" name="nombre" type="text" required autocomplete="name"
+        <label class="promo-field" for="input-nombre">
+          <span class="promo-label" id="label-nombre">Nombre</span>
+          <input class="promo-input" id="input-nombre" name="nombre" type="text" required autocomplete="name" aria-labelledby="label-nombre"
           oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúñÑ\s]/g, '')" />
         </label>
-        <label class="promo-field">
-          <span class="promo-label">Cumpleaños</span>
-          <input class="promo-input" name="cumple" type="date" required />
+        <label class="promo-field" for="input-cumple">
+          <span class="promo-label" id="label-cumple">Cumpleaños</span>
+          <input class="promo-input" id="input-cumple" name="cumple" type="date" required aria-labelledby="label-cumple" />
         </label>
-        <label class="promo-field">
-          <span class="promo-label">Celular</span>
-          <input class="promo-input" name="celular" type="tel" required inputmode="tel" autocomplete="tel"
+        <label class="promo-field" for="input-celular">
+          <span class="promo-label" id="label-celular">Celular</span>
+          <input class="promo-input" id="input-celular" name="celular" type="tel" required inputmode="tel" autocomplete="tel" aria-labelledby="label-celular"
           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
           pattern="(809|829|849)[0-9]{7}" maxlength="10"
           title="Debe ser un número válido de RD (809, 829 o 849)" />
         </label>
-        <button type="submit" class="hours-close">ENVIAR</button>
-        <button type="button" class="hours-close" id="promoClose">CERRAR</button>
+        <button type="submit" class="hours-close" aria-label="Enviar formulario de bebida gratis">ENVIAR</button>
+        <button type="button" class="hours-close" id="promoClose" aria-label="Cerrar modal de bebida gratis">CERRAR</button>
         <p class="promo-note">
           Al enviar, aceptas que KaFe te contacte sobre tu bebida gratis y promociones.
         </p>
@@ -612,58 +626,58 @@ body::before {
   <!-- SEO section -->
   <section class="seo-section">
     <h2 style="font-size:1.15rem; letter-spacing:0.15em; color:#c9a84c;">Qué comer en Higüey</h2>
-    <p style="font-size:0.8rem; opacity:0.65; line-height:1.8;">Si estás buscando qué comer en Higüey, en KaFe Restaurante encontrarás una propuesta gastronómica que mezcla sabores venezolanos, caribeños y platos clásicos muy queridos por nuestros clientes.</p>
-    <p style="font-size:0.8rem; opacity:0.65; line-height:1.8;">Nuestro menú incluye mofongos, cachapas, arepas, pastas, pechuga a la crema, hamburguesas, camarones y una selección de cócteles. Estamos ubicados cerca de la Basílica de Higüey y puedes ordenar fácilmente desde tu celular.</p>
-    <p style="font-size:0.8rem; opacity:0.65; line-height:1.8;">Revisa nuestro menú digital o escríbenos por WhatsApp para ordenar. En KaFe Restaurante queremos que cada visita sea una experiencia llena de sabor.</p>
+    <p style="font-size:0.8rem; opacity:0.75; line-height:1.8;">Si estás buscando qué comer en Higüey, en KaFe Restaurante encontrarás una propuesta gastronómica que mezcla sabores venezolanos, caribeños y platos clásicos muy queridos por nuestros clientes.</p>
+    <p style="font-size:0.8rem; opacity:0.75; line-height:1.8;">Nuestro menú incluye mofongos, cachapas, arepas, pastas, pechuga a la crema, hamburguesas, camarones y una selección de cócteles. Estamos ubicados cerca de la Basílica de Higüey y puedes ordenar fácilmente desde tu celular.</p>
+    <p style="font-size:0.8rem; opacity:0.75; line-height:1.8;">Revisa nuestro menú digital o escríbenos por WhatsApp para ordenar. En KaFe Restaurante queremos que cada visita sea una experiencia llena de sabor.</p>
   </section>
 
   <!-- BLOG SECTION -->
-  <section style="width:min(560px,100%);margin:0 auto 2.5rem;padding:0 1.1rem;">
+  <section style="width:min(560px,100%);margin:0 auto 2.5rem;padding:0 1.1rem;" aria-label="Guías de Higüey">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.2rem;">
-      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3));"></div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3));" aria-hidden="true"></div>
       <span style="font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(201,168,76,0.6);">Guías de Higüey</span>
-      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,76,0.3),transparent);"></div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,76,0.3),transparent);" aria-hidden="true"></div>
     </div>
     <div style="display:grid;gap:0.6rem;">
 
-      <a href="/blog/que-comer-en-higuey.html" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
+      <a href="/blog/que-comer-en-higuey.html" aria-label="Leer guía: Qué comer en Higüey — Guía completa" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
         <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" style="flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" aria-hidden="true" style="flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
           <span style="font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:500;color:rgba(240,232,216,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Qué comer en Higüey — Guía completa</span>
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" aria-hidden="true" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </a>
 
-      <a href="/blog/restaurantes-cerca-basilica-higuey.html" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
+      <a href="/blog/restaurantes-cerca-basilica-higuey.html" aria-label="Leer guía: Restaurantes cerca de la Basílica de Higüey" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
         <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" style="flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" aria-hidden="true" style="flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
           <span style="font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:500;color:rgba(240,232,216,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Restaurantes cerca de la Basílica de Higüey</span>
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" aria-hidden="true" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </a>
 
-      <a href="/blog/mofongo-en-higuey.html" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
+      <a href="/blog/mofongo-en-higuey.html" aria-label="Leer guía: Mofongo en Higüey — Dónde encontrarlo" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
         <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" style="flex-shrink:0"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" aria-hidden="true" style="flex-shrink:0"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           <span style="font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:500;color:rgba(240,232,216,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Mofongo en Higüey — Dónde encontrarlo</span>
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" aria-hidden="true" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </a>
 
-      <a href="/blog/comida-venezolana-republica-dominicana.html" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
+      <a href="/blog/comida-venezolana-republica-dominicana.html" aria-label="Leer guía: Comida venezolana en República Dominicana" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
         <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" style="flex-shrink:0"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" aria-hidden="true" style="flex-shrink:0"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           <span style="font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:500;color:rgba(240,232,216,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Comida venezolana en República Dominicana</span>
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" aria-hidden="true" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </a>
 
-      <a href="/blog/delivery-comida-higuey.html" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
+      <a href="/blog/delivery-comida-higuey.html" aria-label="Leer guía: Delivery de comida en Higüey" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1rem;border-radius:14px;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);transition:background .18s,border-color .18s;" onmouseover="this.style.background='rgba(201,168,76,0.07)';this.style.borderColor='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(201,168,76,0.1)'">
         <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" style="flex-shrink:0"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)" aria-hidden="true" style="flex-shrink:0"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           <span style="font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:500;color:rgba(240,232,216,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Delivery de comida en Higüey</span>
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(201,168,76,0.5)" aria-hidden="true" style="flex-shrink:0"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </a>
 
     </div>
